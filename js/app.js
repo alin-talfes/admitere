@@ -310,6 +310,12 @@
     renderCurrentQuestion();
   }
 
+  function quickStart() {
+    setView('training', { focus: false });
+    const count = questionBank.length >= 10 ? '10' : 'all';
+    startSession({ mode: 'practice', subject: 'all', topic: 'all', count });
+  }
+
   function renderCurrentQuestion() {
     if (!activeSession) return;
     const question = activeSession.questions[activeSession.index];
@@ -608,6 +614,7 @@
 
   function bindEvents() {
     $$('[data-view]').forEach(button => button.addEventListener('click', () => setView(button.dataset.view)));
+    $$('[data-go-training]').forEach(button => button.addEventListener('click', () => setView('training')));
     $$('[data-go-view]').forEach(button => button.addEventListener('click', () => setView(button.dataset.goView)));
     $$('[data-subject-open]').forEach(button => button.addEventListener('click', () => {
       const id = button.dataset.subjectOpen === 'romana' ? '#curriculum-romana' : '#curriculum-istorie';
@@ -632,10 +639,11 @@
     $('#topic-filter').addEventListener('change', updateTrainingAvailability);
     $('#count-filter').addEventListener('change', updateTrainingAvailability);
     $('#start-session').addEventListener('click', () => startSession());
+    $('#quick-start').addEventListener('click', quickStart);
     $('#next-question').addEventListener('click', nextQuestion);
     $('#quit-session').addEventListener('click', quitSession);
-    $('#retry-session').addEventListener('click', () => lastSessionConfig && startSession(lastSessionConfig));
-    $('#back-to-setup').addEventListener('click', showTrainingSetup);
+    $('#repeat-session').addEventListener('click', () => lastSessionConfig && startSession(lastSessionConfig));
+    $('#back-to-training').addEventListener('click', showTrainingSetup);
 
     $('#export-progress').addEventListener('click', exportProgress);
     $('#import-progress').addEventListener('change', event => importProgress(event.target.files?.[0]));
