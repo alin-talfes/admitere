@@ -33,6 +33,10 @@
     // Q43 are cheia istorica bazata pe o despartire care nu mai produce o varianta integral corecta
     // conform regulilor DOOM3: vâr-stă si sculp-tă trebuie respectate simultan.
     '2020-ro-043',
+    // Q48 foloseste clasificarea traditionala „numeral colectiv/distributiv/fractionar”.
+    // Gramatica indicata in bibliografia actuala trateaza aceste forme drept constructii,
+    // pronume/adjective pronominale sau substantive, nu drept clase de numeral distincte.
+    '2020-ro-048',
 
     // 2020 Istorie: probleme materiale ale subiectului oficial.
     // Q1 ofera 1900/2000/1800/1990, desi Palatul Parlamentului a inceput sa fie construit in anii 1980.
@@ -47,6 +51,9 @@
     '2019-ro-047',
     '2019-ro-048',
     '2019-ro-065',
+    // Q39 are cheia istorica pe o serie care accentueaza „taxi” pe prima silaba.
+    // DOOM3 recomanda accentul final: taxí; itemul nu mai are raspunsul istoric valabil.
+    '2019-ro-039',
     // Q44 contine un distractor corupt in transcrierea curenta ("i erbivor").
     '2019-ro-044',
     // Q58 cere numararea cuvintelor corect accentuate, dar marcajele de accent nu sunt pastrate.
