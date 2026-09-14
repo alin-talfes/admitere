@@ -142,9 +142,18 @@ function validateDomContract() {
     match[1].split(/\s+/).filter(Boolean).forEach(className => htmlClasses.add(className));
   }
 
-  // $() returnează un singur element sau null. Orice selector static simplu folosit
-  // astfel trebuie să existe în HTML, altfel codul poate crăpa la accesarea proprietăților
-  // sau la addEventListener (exact tipul de regresie pe care vrem să îl prevenim).
+  // Unele elemente sunt create numai în JavaScript (de exemplu answer-button), deci
+  // clasele lor nu trebuie să existe inițial în index.html.
+  const dynamicClasses = new Set();
+  for (const match of app.matchAll(/\.className\s*=\s*['"]([^'"]+)['"]/g)) {
+    match[1].split(/\s+/).filter(Boolean).forEach(className => dynamicClasses.add(className));
+  }
+  for (const match of app.matchAll(/\.classList\.add\(\s*['"]([^'"]+)['"]\s*\)/g)) {
+    dynamicClasses.add(match[1]);
+  }
+
+  // $() returnează un singur element sau null. Selectoarele statice simple trebuie să
+  // existe fie în HTML, fie să desemneze o clasă creată explicit dinamic de app.js.
   const singleSelectors = [...app.matchAll(/\$\(\s*['"]([#.][A-Za-z0-9_-]+)['"]\s*\)/g)]
     .map(match => match[1]);
 
@@ -152,20 +161,20 @@ function validateDomContract() {
     if (selector.startsWith('#') && !idSet.has(selector.slice(1))) {
       fail(`Contract DOM rupt: app.js folosește ${selector}, dar index.html nu conține acest ID.`);
     }
-    if (selector.startsWith('.') && !htmlClasses.has(selector.slice(1))) {
-      fail(`Contract DOM rupt: app.js folosește ${selector}, dar index.html nu conține această clasă.`);
+    if (selector.startsWith('.')) {
+      const className = selector.slice(1);
+      if (!htmlClasses.has(className) && !dynamicClasses.has(className)) {
+        fail(`Contract DOM rupt: app.js folosește ${selector}, dar clasa nu există în HTML și nu este creată dinamic.`);
+      }
     }
   }
 
-  // Pentru bind-urile directe cerem explicit existența ID-ului. Astfel un rename în HTML
-  // nu poate transforma inițializarea într-o excepție silențioasă în browser.
   const directListenerIds = [...app.matchAll(/\$\(\s*['"]#([A-Za-z0-9_-]+)['"]\s*\)\.addEventListener\s*\(/g)]
     .map(match => match[1]);
   for (const id of new Set(directListenerIds)) {
     if (!idSet.has(id)) fail(`Listener către ID inexistent: #${id}.`);
   }
 
-  // Atributele de navigare obligatorii din interfața actuală trebuie să aibă și handler.
   const requiredDataHooks = ['data-view', 'data-go-training', 'data-mode'];
   for (const attribute of requiredDataHooks) {
     if (!new RegExp(`\\b${attribute}(?:=|\\s|>)`).test(html)) {
@@ -179,7 +188,8 @@ function validateDomContract() {
   return {
     htmlIds: htmlIds.length,
     singleSelectors: new Set(singleSelectors).size,
-    directListeners: new Set(directListenerIds).size
+    directListeners: new Set(directListenerIds).size,
+    dynamicClasses: dynamicClasses.size
   };
 }
 
@@ -205,7 +215,7 @@ function main() {
   console.log(`Itemi activi după carantină: ${active.registered}`);
   console.log(`Itemi carantinați întâlniți în modulele active: ${active.quarantinedLoaded}`);
   if (active.skipped.length) console.log(`Carantină activă: ${active.skipped.join(', ')}`);
-  console.log(`Contract DOM: OK (${dom.htmlIds} ID-uri, ${dom.singleSelectors} selectori $(), ${dom.directListeners} listenere directe).`);
+  console.log(`Contract DOM: OK (${dom.htmlIds} ID-uri, ${dom.singleSelectors} selectori $(), ${dom.directListeners} listenere directe, ${dom.dynamicClasses} clase dinamice).`);
 }
 
 try {
