@@ -36,9 +36,9 @@ Baremul istoric dovedește ce a fost punctat la examenul din anul respectiv. Nu 
 | 2016 | neimportat; erata oficială verificată: modifică doar calculul punctajului, nu cheia | sursă oficială identificată; neimportat | nu |
 | 2015 | neimportat; ambele grile oficiale și contestațiile sunt listate în arhivă | neimportat | nu |
 | 2014 | neimportat; există și o soluționare ulterioară individuală publicată în 2017 | erată oficială a grilei identificată, conținutul exact încă nerecuperat | nu |
-| 2013 | grilă oficială identificată; neimportat | PDF oficial deschis; itemii 1–50 inspectați, pagina cu 51–60 nu s-a redat stabil | nu |
-| 2012 | grilă oficială identificată; neimportat | grilă oficială identificată; neimportat | nu |
-| 2011 | grilă oficială identificată; neimportat | grilă oficială identificată; neimportat | nu |
+| 2013 | PDF oficial identificat; neimportat | **60/60 itemi recuperați în staging; Q24/Q35 carantinate pentru erori materiale** | nu |
+| 2012 | URL oficial al PDF-ului recuperat; serverul nu l-a redat stabil | URL oficial al PDF-ului recuperat; serverul nu l-a redat stabil | nu |
+| 2011 | PDF oficial identificat; redarea paginilor Română a eșuat | grila 1–60 și itemii 1–44 inspectați; 45–60 încă nerecuperați integral | nu |
 
 Detaliile și justificările sunt în fișierele `YYYY.md`.
 
