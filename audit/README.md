@@ -23,6 +23,10 @@ Baremul istoric dovedește ce a fost punctat la examenul din anul respectiv. Nu 
 
 | An | Limba română | Istoria românilor | Activ în `index.html` |
 |---|---|---|---|
+| 2026 | sursa oficială a sesiunii identificată; documentele individuale ANP nu au putut fi inspectate integral | aceeași situație | nu |
+| 2025 | neimportat; pagina oficială a sesiunii identificată | neimportat | nu |
+| 2024 | neimportat; pagina oficială a sesiunii identificată | neimportat | nu |
+| 2023 | barem oficial identificat pe ANP, dar PDF-ul nu a putut fi inspectat integral | barem oficial identificat pe ANP, dar PDF-ul nu a putut fi inspectat integral | nu |
 | 2022 | parțial validat; erată Q4 aplicată; itemi ambigui excluși | cheie verificată | da |
 | 2021 | cheie verificată; necesită audit normativ 2026 | cheie verificată | nu |
 | 2020 | staging; item dependent de subliniere exclus | cheie verificată; Q1 și Q27 excluse pentru erori materiale | nu |
