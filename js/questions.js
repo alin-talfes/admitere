@@ -15,10 +15,20 @@
   window.QUESTION_BANK = [];
 
   const QUARANTINED_QUESTION_IDS = new Set([
-    // 2022: sensul itemului depinde de sublinierea din documentul oficial,
-    // formatare pe care interfata text simplu nu o reproduce inca fidel.
+    // 2022: sensul itemului depinde de sublinierea din documentul oficial.
     '2022-ro-031',
-    '2022-ro-033'
+    '2022-ro-033',
+
+    // 2020: cuvantul subliniat nu este identificabil in transcrierea text simplu.
+    '2020-ro-032',
+
+    // 2019: itemi care cer analiza unor cuvinte marcate/subliniate in original.
+    '2019-ro-015',
+    '2019-ro-025',
+    '2019-ro-027',
+    '2019-ro-047',
+    '2019-ro-048',
+    '2019-ro-065'
   ]);
 
   window.QUESTION_AUDIT = {
