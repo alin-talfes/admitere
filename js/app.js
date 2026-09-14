@@ -89,15 +89,15 @@
     bank.forEach((q, index) => {
       const prefix = `Întrebarea #${index + 1}`;
       if (!q || typeof q !== 'object') { errors.push(`${prefix}: structură invalidă.`); return; }
-      if (typeof q.id !== 'string' || !q.id.trim()) errors.push(`${prefix}: lipsește id.`);
+      if (typeof q.id !== 'string' || !/^\d{4}-(?:ro|ist)-\d{3}$/.test(q.id)) errors.push(`${prefix}: id invalid.`);
       else if (ids.has(q.id)) errors.push(`${prefix}: id duplicat „${q.id}”.`);
       else ids.add(q.id);
       if (!SUBJECTS[q.subject]) errors.push(`${prefix}: materia „${q.subject ?? ''}” nu este validă.`);
       const validTopics = TOPICS[q.subject]?.map(([key]) => key) ?? [];
       if (!validTopics.includes(q.topic)) errors.push(`${prefix}: tema „${q.topic ?? ''}” nu este validă pentru materie.`);
       if (typeof q.prompt !== 'string' || !q.prompt.trim()) errors.push(`${prefix}: enunț lipsă.`);
-      if (!Array.isArray(q.options) || q.options.length < 2 || q.options.some(o => typeof o !== 'string' || !o.trim())) errors.push(`${prefix}: opțiunile trebuie să conțină cel puțin două texte valide.`);
-      if (!Number.isInteger(q.correctIndex) || q.correctIndex < 0 || q.correctIndex >= (q.options?.length ?? 0)) errors.push(`${prefix}: correctIndex este invalid.`);
+      if (!Array.isArray(q.options) || q.options.length !== 4 || q.options.some(o => typeof o !== 'string' || !o.trim())) errors.push(`${prefix}: trebuie să existe exact patru opțiuni text valide.`);
+      if (!Number.isInteger(q.correctIndex) || q.correctIndex < 0 || q.correctIndex > 3) errors.push(`${prefix}: correctIndex este invalid.`);
       if (q.explanation != null && typeof q.explanation !== 'string') errors.push(`${prefix}: explanation trebuie să fie text.`);
       if (q.source != null && typeof q.source !== 'string') errors.push(`${prefix}: source trebuie să fie text.`);
     });
@@ -178,133 +178,120 @@
     let mistakes = 0;
     const bySubject = { romana: { answered: 0, correct: 0 }, istorie: { answered: 0, correct: 0 } };
 
-    for (const question of questionBank) {
-      const stats = getQuestionStats(question.id);
+    Object.entries(state.answers).forEach(([id, record]) => {
+      const question = questionBank.find(q => q.id === id);
+      if (!question) return;
+      const stats = getQuestionStats(id);
       answered += stats.attempts;
       correct += stats.correct;
-      if (stats.attempts > 0 && stats.lastCorrect === false) mistakes += 1;
+      if (stats.lastCorrect === false) mistakes += 1;
       bySubject[question.subject].answered += stats.attempts;
       bySubject[question.subject].correct += stats.correct;
-    }
+    });
 
-    return { answered, correct, mistakes, bySubject, sessions: state.sessions.length };
+    return { answered, correct, mistakes, bySubject };
   }
 
-  function percent(correct, total) {
-    return total > 0 ? Math.round((correct / total) * 100) : 0;
+  function percent(numerator, denominator) {
+    return denominator ? Math.round((numerator / denominator) * 100) : 0;
   }
 
   function updateDashboard() {
     const stats = aggregateStats();
-    const rate = percent(stats.correct, stats.answered);
-    $('#stat-answered').textContent = stats.answered;
-    $('#stat-correct').textContent = stats.correct;
-    $('#stat-sessions').textContent = stats.sessions;
-    $('#stat-bank').textContent = questionBank.length;
-    $('#overall-percent').textContent = `${rate}%`;
-    $('#overall-ring').style.setProperty('--progress', `${rate * 3.6}deg`);
-    $('#overall-caption').textContent = stats.answered ? `${stats.correct} din ${stats.answered} răspunsuri corecte` : 'Nicio grilă rezolvată încă';
+    const overall = percent(stats.correct, stats.answered);
+    $('#overall-percent').textContent = `${overall}%`;
+    $('#overall-ring').style.setProperty('--score', `${overall * 3.6}deg`);
+    $('#overall-caption').textContent = stats.answered ? `${stats.correct} corecte din ${stats.answered} răspunsuri` : 'Nicio grilă rezolvată încă';
+    $('#stat-answered').textContent = String(stats.answered);
+    $('#stat-correct').textContent = String(stats.correct);
+    $('#stat-sessions').textContent = String(state.sessions.length);
+    $('#stat-bank').textContent = String(questionBank.length);
 
     ['romana', 'istorie'].forEach(subject => {
-      const count = questionBank.filter(q => q.subject === subject).length;
-      const s = stats.bySubject[subject];
-      const rateSubject = percent(s.correct, s.answered);
+      const available = questionBank.filter(q => q.subject === subject).length;
+      const subjectStats = stats.bySubject[subject];
+      const ratio = percent(subjectStats.correct, subjectStats.answered);
       const prefix = subject === 'romana' ? 'romanian' : 'history';
-      $(`#${prefix}-progress`).style.width = `${rateSubject}%`;
-      $(`#${prefix}-meta`).textContent = `${count} ${count === 1 ? 'grilă disponibilă' : 'grile disponibile'}`;
+      $(`#${prefix}-meta`).textContent = `${available} grile disponibile · ${ratio}% corecte`;
+      $(`#${prefix}-progress`).style.width = `${ratio}%`;
     });
-  }
-
-  function populateTopicFilter() {
-    const subject = $('#subject-filter').value;
-    const select = $('#topic-filter');
-    const previous = select.value;
-    select.replaceChildren(new Option('Toate temele', 'all'));
-    const subjects = subject === 'all' ? Object.keys(TOPICS) : [subject];
-    subjects.forEach(s => {
-      const group = document.createElement('optgroup');
-      group.label = SUBJECTS[s].label;
-      TOPICS[s].forEach(([key, label]) => group.append(new Option(label, `${s}:${key}`)));
-      select.append(group);
-    });
-    if ([...select.options].some(o => o.value === previous)) select.value = previous;
-  }
-
-  function filteredPool() {
-    const subject = $('#subject-filter').value;
-    const topicValue = $('#topic-filter').value;
-    let pool = questionBank.filter(q => subject === 'all' || q.subject === subject);
-    if (topicValue !== 'all') {
-      const [topicSubject, topic] = topicValue.split(':');
-      pool = pool.filter(q => q.subject === topicSubject && q.topic === topic);
-    }
-    if (selectedMode === 'mistakes') pool = pool.filter(q => getQuestionStats(q.id).lastCorrect === false);
-    return pool;
   }
 
   function updateTrainingAvailability() {
-    const pool = filteredPool();
-    const button = $('#start-session');
-    const title = $('#availability-title');
-    const text = $('#availability-text');
-    $('#bank-count').textContent = questionBank.length;
-
-    if (questionBank.length === 0) {
-      title.textContent = 'Banca de grile nu este încă încărcată.';
-      text.textContent = 'Interfața și motorul de testare sunt pregătite. Următoarea etapă este introducerea întrebărilor.';
-      button.disabled = true;
+    updateTopicFilter();
+    const pool = getFilteredPool({ respectCount: false });
+    const start = $('#start-session');
+    $('#bank-count').textContent = String(questionBank.length);
+    if (!questionBank.length) {
+      $('#availability-title').textContent = 'Banca de grile nu este încă încărcată.';
+      $('#availability-text').textContent = 'Adaugă întrebări validate în js/questions.js pentru a activa antrenamentul.';
+      start.disabled = true;
       return;
     }
-    if (pool.length === 0) {
-      title.textContent = selectedMode === 'mistakes' ? 'Nu există greșeli de reluat pentru filtrul ales.' : 'Nu există grile pentru filtrul ales.';
-      text.textContent = 'Modifică materia, tema sau modul de antrenament.';
-      button.disabled = true;
+    if (!pool.length) {
+      $('#availability-title').textContent = selectedMode === 'mistakes' ? 'Nu există greșeli pentru filtrele alese.' : 'Nu există grile pentru filtrele alese.';
+      $('#availability-text').textContent = selectedMode === 'mistakes' ? 'Rezolvă întâi câteva întrebări și revino aici.' : 'Schimbă materia sau tema.';
+      start.disabled = true;
       return;
     }
-    title.textContent = `${pool.length} ${pool.length === 1 ? 'grilă disponibilă' : 'grile disponibile'} pentru selecția curentă.`;
-    text.textContent = selectedMode === 'practice' ? 'Răspunsul și explicația vor apărea imediat.' : selectedMode === 'test' ? 'Rezultatul complet va apărea la final.' : 'Vor fi incluse numai grilele greșite la ultima încercare.';
-    button.disabled = false;
+    $('#availability-title').textContent = `${pool.length} grile corespund filtrelor.`;
+    $('#availability-text').textContent = selectedMode === 'practice' ? 'Vei primi feedback după fiecare răspuns.' : selectedMode === 'test' ? 'Răspunsurile vor fi evaluate la final.' : 'Sunt incluse numai întrebările greșite ultima dată.';
+    start.disabled = false;
   }
 
-  function shuffle(array) {
-    const result = [...array];
-    for (let i = result.length - 1; i > 0; i -= 1) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [result[i], result[j]] = [result[j], result[i]];
+  function updateTopicFilter() {
+    const subject = $('#subject-filter').value;
+    const select = $('#topic-filter');
+    const previous = select.value;
+    const topicPairs = subject === 'all' ? [...TOPICS.romana, ...TOPICS.istorie] : (TOPICS[subject] ?? []);
+    const unique = [...new Map(topicPairs.map(item => [item[0], item])).values()];
+    select.innerHTML = '<option value="all">Toate temele</option>' + unique.map(([key, label]) => `<option value="${key}">${label}</option>`).join('');
+    if ([...select.options].some(option => option.value === previous)) select.value = previous;
+  }
+
+  function getFilteredPool({ respectCount = true } = {}) {
+    const subject = $('#subject-filter').value;
+    const topic = $('#topic-filter').value;
+    let pool = [...questionBank];
+    if (subject !== 'all') pool = pool.filter(q => q.subject === subject);
+    if (topic !== 'all') pool = pool.filter(q => q.topic === topic);
+    if (selectedMode === 'mistakes') pool = pool.filter(q => getQuestionStats(q.id).lastCorrect === false);
+    pool = shuffle(pool);
+    if (respectCount) {
+      const requested = $('#count-filter').value;
+      if (requested !== 'all') pool = pool.slice(0, Number(requested));
     }
-    return result;
+    return pool;
+  }
+
+  function shuffle(items) {
+    const copy = [...items];
+    for (let i = copy.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
   }
 
   function startSession(config = null) {
-    const resolvedConfig = config ?? {
-      mode: selectedMode,
+    const pool = config?.questions ? [...config.questions] : getFilteredPool();
+    if (!pool.length) return;
+    activeSession = {
+      mode: config?.mode ?? selectedMode,
+      questions: pool,
+      index: 0,
+      answers: [],
+      correct: 0,
+      answeredCurrent: false,
+      startedAt: new Date().toISOString()
+    };
+    lastSessionConfig = {
+      mode: activeSession.mode,
       subject: $('#subject-filter').value,
       topic: $('#topic-filter').value,
       count: $('#count-filter').value
     };
-    selectedMode = resolvedConfig.mode;
-    $('#subject-filter').value = resolvedConfig.subject;
-    populateTopicFilter();
-    $('#topic-filter').value = resolvedConfig.topic;
-    $('#count-filter').value = resolvedConfig.count;
-
-    let pool = filteredPool();
-    if (!pool.length) { updateTrainingAvailability(); return; }
-    pool = shuffle(pool);
-    if (resolvedConfig.count !== 'all') pool = pool.slice(0, Number(resolvedConfig.count));
-
-    activeSession = {
-      id: `session-${Date.now()}`,
-      mode: resolvedConfig.mode,
-      startedAt: new Date().toISOString(),
-      questions: pool,
-      index: 0,
-      answers: [],
-      locked: false
-    };
-    lastSessionConfig = { ...resolvedConfig };
     $('#training-setup').hidden = true;
-    $('.tips-card').hidden = true;
     $('#quiz-results').hidden = true;
     $('#quiz-runner').hidden = false;
     renderCurrentQuestion();
@@ -312,248 +299,178 @@
 
   function renderCurrentQuestion() {
     if (!activeSession) return;
-    const question = activeSession.questions[activeSession.index];
-    const total = activeSession.questions.length;
-    const answeredCorrect = activeSession.answers.filter(a => a.correct).length;
-    $('#runner-position').textContent = `Întrebarea ${activeSession.index + 1} din ${total}`;
-    $('#runner-score').textContent = `${answeredCorrect} corecte`;
-    $('#runner-progress-bar').style.width = `${(activeSession.index / total) * 100}%`;
-    $('#question-subject').textContent = SUBJECTS[question.subject].label;
-    $('#question-topic').textContent = getTopicLabel(question.subject, question.topic);
-    $('#question-prompt').textContent = question.prompt;
+    const q = activeSession.questions[activeSession.index];
+    activeSession.answeredCurrent = false;
+    $('#runner-position').textContent = `Întrebarea ${activeSession.index + 1} din ${activeSession.questions.length}`;
+    $('#runner-score').textContent = `${activeSession.correct} corecte`;
+    $('#runner-progress-bar').style.width = `${((activeSession.index + 1) / activeSession.questions.length) * 100}%`;
+    $('#question-subject').textContent = SUBJECTS[q.subject].label;
+    $('#question-topic').textContent = getTopicLabel(q.subject, q.topic);
+    $('#question-prompt').textContent = q.prompt;
     $('#question-feedback').hidden = true;
-    $('#question-feedback').replaceChildren();
+    $('#question-feedback').innerHTML = '';
     $('#next-question').disabled = true;
-    $('#next-question').textContent = activeSession.index === total - 1 ? 'Finalizează' : 'Următoarea';
-    activeSession.locked = false;
+    $('#next-question').textContent = activeSession.index === activeSession.questions.length - 1 ? 'Finalizează' : 'Următoarea';
 
     const answers = $('#answers-list');
-    answers.replaceChildren();
-    question.options.forEach((option, optionIndex) => {
+    answers.innerHTML = '';
+    q.options.forEach((option, index) => {
       const button = document.createElement('button');
       button.type = 'button';
-      button.className = 'answer-button';
-      button.dataset.optionIndex = String(optionIndex);
-      const letter = document.createElement('span');
-      letter.className = 'answer-letter';
-      letter.textContent = String.fromCharCode(65 + optionIndex);
-      const text = document.createElement('span');
-      text.textContent = option;
-      button.append(letter, text);
-      button.addEventListener('click', () => chooseAnswer(optionIndex));
-      answers.append(button);
+      button.className = 'answer-option';
+      button.innerHTML = `<span class="answer-letter">${String.fromCharCode(65 + index)}</span><span>${escapeHtml(option)}</span>`;
+      button.addEventListener('click', () => selectAnswer(index));
+      answers.appendChild(button);
     });
   }
 
-  function chooseAnswer(optionIndex) {
-    if (!activeSession || activeSession.locked) return;
-    const question = activeSession.questions[activeSession.index];
-    const isCorrect = optionIndex === question.correctIndex;
-    activeSession.locked = true;
-    activeSession.answers.push({ questionId: question.id, selectedIndex: optionIndex, correct: isCorrect });
-    recordAnswer(question, isCorrect);
+  function selectAnswer(index) {
+    if (!activeSession || activeSession.answeredCurrent) return;
+    const q = activeSession.questions[activeSession.index];
+    const isCorrect = index === q.correctIndex;
+    activeSession.answeredCurrent = true;
+    activeSession.answers.push({ id: q.id, selectedIndex: index, correct: isCorrect });
+    if (isCorrect) activeSession.correct += 1;
+    recordAnswer(q.id, isCorrect);
 
-    $$('.answer-button').forEach((button, index) => {
+    const buttons = $$('.answer-option', $('#answers-list'));
+    buttons.forEach((button, buttonIndex) => {
       button.disabled = true;
-      if (index === optionIndex) button.classList.add('is-selected');
-      if (activeSession.mode !== 'test') {
-        if (index === question.correctIndex) button.classList.add('is-correct');
-        else if (index === optionIndex) button.classList.add('is-wrong');
+      if (activeSession.mode === 'practice') {
+        if (buttonIndex === q.correctIndex) button.classList.add('is-correct');
+        if (buttonIndex === index && !isCorrect) button.classList.add('is-wrong');
+      } else if (buttonIndex === index) {
+        button.classList.add('is-selected');
       }
     });
 
-    if (activeSession.mode !== 'test') showFeedback(question, isCorrect);
+    if (activeSession.mode === 'practice') showFeedback(q, isCorrect);
+    $('#runner-score').textContent = `${activeSession.correct} corecte`;
     $('#next-question').disabled = false;
-    $('#runner-score').textContent = `${activeSession.answers.filter(a => a.correct).length} corecte`;
   }
 
   function showFeedback(question, isCorrect) {
-    const box = $('#question-feedback');
-    const title = document.createElement('strong');
-    title.textContent = isCorrect ? 'Răspuns corect.' : `Răspuns greșit. Varianta corectă: ${String.fromCharCode(65 + question.correctIndex)}.`;
-    box.append(title);
-    if (question.explanation) {
-      const explanation = document.createElement('span');
-      explanation.textContent = question.explanation;
-      box.append(explanation);
-    }
-    if (question.source) {
-      const source = document.createElement('span');
-      source.textContent = `Sursă: ${question.source}`;
-      box.append(source);
-    }
-    box.hidden = false;
+    const feedback = $('#question-feedback');
+    const answer = question.options[question.correctIndex];
+    const explanation = question.explanation?.trim() || 'Explicația detaliată nu a fost introdusă încă.';
+    const source = question.source?.trim();
+    feedback.className = `question-feedback ${isCorrect ? 'is-correct' : 'is-wrong'}`;
+    feedback.innerHTML = `<strong>${isCorrect ? 'Corect.' : 'Răspuns incorect.'}</strong><p>Răspuns corect: <b>${String.fromCharCode(65 + question.correctIndex)}. ${escapeHtml(answer)}</b></p><p>${escapeHtml(explanation)}</p>${source ? `<small>Sursă: ${escapeHtml(source)}</small>` : ''}`;
+    feedback.hidden = false;
   }
 
-  function recordAnswer(question, isCorrect) {
-    const previous = state.answers[question.id] ?? { attempts: 0, correct: 0, lastCorrect: null, updatedAt: null };
-    state.answers[question.id] = {
-      attempts: (Number(previous.attempts) || 0) + 1,
-      correct: (Number(previous.correct) || 0) + (isCorrect ? 1 : 0),
+  function recordAnswer(id, isCorrect) {
+    const current = getQuestionStats(id);
+    state.answers[id] = {
+      attempts: current.attempts + 1,
+      correct: current.correct + (isCorrect ? 1 : 0),
       lastCorrect: isCorrect,
       updatedAt: new Date().toISOString()
     };
     saveState();
-    updateDashboard();
   }
 
   function nextQuestion() {
-    if (!activeSession || !activeSession.locked) return;
-    if (activeSession.index < activeSession.questions.length - 1) {
-      activeSession.index += 1;
-      renderCurrentQuestion();
+    if (!activeSession || !activeSession.answeredCurrent) return;
+    if (activeSession.index >= activeSession.questions.length - 1) {
+      finishSession();
       return;
     }
-    finishSession();
+    activeSession.index += 1;
+    renderCurrentQuestion();
   }
 
   function finishSession() {
     if (!activeSession) return;
     const total = activeSession.questions.length;
-    const correct = activeSession.answers.filter(a => a.correct).length;
-    const sessionRecord = {
-      id: activeSession.id,
+    const correct = activeSession.correct;
+    const result = {
+      date: new Date().toISOString(),
       mode: activeSession.mode,
-      startedAt: activeSession.startedAt,
-      finishedAt: new Date().toISOString(),
       total,
       correct,
-      subject: $('#subject-filter').value,
-      topic: $('#topic-filter').value
+      percent: percent(correct, total)
     };
-    state.sessions.unshift(sessionRecord);
-    state.sessions = state.sessions.slice(0, 100);
+    state.sessions.push(result);
+    if (state.sessions.length > 100) state.sessions = state.sessions.slice(-100);
     saveState();
 
-    const rate = percent(correct, total);
     $('#quiz-runner').hidden = true;
     $('#quiz-results').hidden = false;
-    $('#results-percent').textContent = `${rate}%`;
+    $('#results-percent').textContent = `${result.percent}%`;
     $('#results-title').textContent = `${correct} din ${total} răspunsuri corecte`;
-    $('#results-summary').textContent = rate >= 90 ? 'Rezultat foarte bun. Pentru consolidare, repetă periodic temele cu erori.' : rate >= 70 ? 'Bază bună. Prioritizează întrebările greșite înaintea următoarei sesiuni.' : 'Este utilă o recapitulare pe temele cu cele mai multe erori înainte de un nou test.';
-    activeSession = null;
+    $('#results-summary').textContent = activeSession.mode === 'test' ? 'Rezultatul include toate răspunsurile din sesiunea de test.' : 'Progresul a fost salvat local pe acest dispozitiv.';
     updateAllUI();
   }
 
-  function quitSession() {
-    if (!activeSession) return;
-    if (activeSession.answers.length > 0 && !confirm('Ieși din sesiune? Răspunsurile deja date rămân salvate, dar sesiunea nu va fi înregistrată ca finalizată.')) return;
+  function leaveSession() {
+    if (!activeSession || confirm('Ieși din sesiunea curentă? Răspunsurile deja date rămân salvate.')) {
+      activeSession = null;
+      $('#quiz-runner').hidden = true;
+      $('#quiz-results').hidden = true;
+      $('#training-setup').hidden = false;
+      updateTrainingAvailability();
+    }
+  }
+
+  function resetTrainingView() {
     activeSession = null;
     $('#quiz-runner').hidden = true;
     $('#quiz-results').hidden = true;
     $('#training-setup').hidden = false;
-    $('.tips-card').hidden = false;
     updateTrainingAvailability();
   }
 
-  function showTrainingSetup() {
-    activeSession = null;
-    $('#quiz-runner').hidden = true;
-    $('#quiz-results').hidden = true;
-    $('#training-setup').hidden = false;
-    $('.tips-card').hidden = false;
-    updateTrainingAvailability();
-  }
-
-  function recordForQuestion(question) {
-    const stats = getQuestionStats(question.id);
-    return { ...stats, subject: question.subject, topic: question.topic };
+  function repeatLastSession() {
+    if (!lastSessionConfig) return resetTrainingView();
+    selectedMode = lastSessionConfig.mode;
+    $$('.mode-card').forEach(button => {
+      const active = button.dataset.mode === selectedMode;
+      button.classList.toggle('is-selected', active);
+      button.setAttribute('aria-checked', String(active));
+    });
+    $('#subject-filter').value = lastSessionConfig.subject;
+    updateTopicFilter();
+    $('#topic-filter').value = lastSessionConfig.topic;
+    $('#count-filter').value = lastSessionConfig.count;
+    resetTrainingView();
   }
 
   function renderProgress() {
     const stats = aggregateStats();
-    $('#progress-rate').textContent = `${percent(stats.correct, stats.answered)}%`;
-    $('#progress-ro-rate').textContent = `${percent(stats.bySubject.romana.correct, stats.bySubject.romana.answered)}%`;
-    $('#progress-hi-rate').textContent = `${percent(stats.bySubject.istorie.correct, stats.bySubject.istorie.answered)}%`;
-    $('#progress-ro-count').textContent = `${stats.bySubject.romana.answered} răspunsuri`;
-    $('#progress-hi-count').textContent = `${stats.bySubject.istorie.answered} răspunsuri`;
-    $('#progress-mistakes').textContent = stats.mistakes;
-
-    const groups = new Map();
-    questionBank.forEach(question => {
-      const record = recordForQuestion(question);
-      if (!record.attempts) return;
-      const key = `${question.subject}:${question.topic}`;
-      const current = groups.get(key) ?? { subject: question.subject, topic: question.topic, attempts: 0, correct: 0 };
-      current.attempts += record.attempts;
-      current.correct += record.correct;
-      groups.set(key, current);
+    const cards = $('#progress-subjects');
+    cards.innerHTML = '';
+    ['romana', 'istorie'].forEach(subject => {
+      const data = stats.bySubject[subject];
+      const available = questionBank.filter(q => q.subject === subject).length;
+      const ratio = percent(data.correct, data.answered);
+      const topics = TOPICS[subject].map(([key, label]) => {
+        const topicQuestions = questionBank.filter(q => q.subject === subject && q.topic === key);
+        const topicIds = new Set(topicQuestions.map(q => q.id));
+        let attempts = 0;
+        let correct = 0;
+        topicIds.forEach(id => {
+          const qStats = getQuestionStats(id);
+          attempts += qStats.attempts;
+          correct += qStats.correct;
+        });
+        return `<div class="topic-stat"><span>${escapeHtml(label)}</span><strong>${percent(correct, attempts)}%</strong><small>${topicQuestions.length} grile · ${attempts} răspunsuri</small></div>`;
+      }).join('');
+      cards.insertAdjacentHTML('beforeend', `<article class="panel-card progress-subject-card"><div class="progress-card-head"><div><p class="eyebrow">${SUBJECTS[subject].label}</p><h2>${ratio}% corecte</h2></div><span class="bank-chip"><strong>${available}</strong><span>grile</span></span></div><div class="progress-line large"><span style="width:${ratio}%"></span></div><div class="topic-stats">${topics}</div></article>`);
     });
 
-    const performanceHost = $('#topic-performance');
-    if (!groups.size) {
-      performanceHost.className = 'empty-state';
-      performanceHost.replaceChildren(makeTextBlock('Nu există încă date.', 'Rezolvă grile pentru a vedea performanța pe fiecare temă.'));
-    } else {
-      performanceHost.className = 'performance-list';
-      performanceHost.replaceChildren(...[...groups.values()].sort((a,b) => percent(a.correct,a.attempts) - percent(b.correct,b.attempts)).map(group => {
-        const row = document.createElement('div');
-        row.className = 'performance-row';
-        const head = document.createElement('div');
-        head.className = 'performance-head';
-        const label = document.createElement('strong');
-        label.textContent = getTopicLabel(group.subject, group.topic);
-        const metric = document.createElement('span');
-        const rate = percent(group.correct, group.attempts);
-        metric.textContent = `${rate}% · ${group.attempts} răsp.`;
-        head.append(label, metric);
-        const bar = document.createElement('div');
-        bar.className = 'progress-line';
-        const fill = document.createElement('span');
-        fill.style.width = `${rate}%`;
-        bar.append(fill);
-        row.append(head, bar);
-        return row;
-      }));
-    }
-
-    const sessionsHost = $('#recent-sessions');
-    if (!state.sessions.length) {
-      sessionsHost.className = 'empty-state';
-      sessionsHost.replaceChildren(makeTextBlock('Nicio sesiune finalizată.', 'Ultimele rezultate vor apărea aici.'));
-    } else {
-      sessionsHost.className = 'session-list';
-      sessionsHost.replaceChildren(...state.sessions.slice(0, 8).map(session => {
-        const row = document.createElement('div');
-        row.className = 'session-row';
-        const left = document.createElement('div');
-        const title = document.createElement('strong');
-        title.textContent = session.mode === 'practice' ? 'Învățare' : session.mode === 'mistakes' ? 'Greșeli' : 'Test';
-        const date = document.createElement('span');
-        date.textContent = formatDate(session.finishedAt);
-        left.append(title, document.createElement('br'), date);
-        const right = document.createElement('strong');
-        right.textContent = `${session.correct}/${session.total}`;
-        row.append(left, right);
-        return row;
-      }));
-    }
-  }
-
-  function makeTextBlock(titleText, bodyText) {
-    const wrap = document.createElement('div');
-    const title = document.createElement('strong');
-    title.textContent = titleText;
-    const body = document.createElement('span');
-    body.textContent = bodyText;
-    wrap.append(title, body);
-    return wrap;
-  }
-
-  function formatDate(value) {
-    const date = new Date(value);
-    if (Number.isNaN(date.getTime())) return 'Dată necunoscută';
-    return new Intl.DateTimeFormat('ro-RO', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }).format(date);
+    const recent = $('#recent-sessions');
+    const sessions = [...state.sessions].reverse().slice(0, 10);
+    recent.innerHTML = sessions.length ? sessions.map(session => `<div class="session-row"><span>${new Date(session.date).toLocaleString('ro-RO')}</span><strong>${session.correct}/${session.total} · ${session.percent}%</strong></div>`).join('') : '<p class="muted">Nu există sesiuni finalizate încă.</p>';
   }
 
   function exportProgress() {
-    const payload = JSON.stringify(state, null, 2);
-    const blob = new Blob([payload], { type: 'application/json' });
+    const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `snpp-progres-${new Date().toISOString().slice(0,10)}.json`;
-    document.body.append(link);
+    link.download = `snpp-training-progres-${new Date().toISOString().slice(0, 10)}.json`;
+    document.body.appendChild(link);
     link.click();
     link.remove();
     URL.revokeObjectURL(url);
@@ -563,105 +480,99 @@
   async function importProgress(file) {
     if (!file) return;
     try {
-      if (file.size > 2 * 1024 * 1024) throw new Error('Fișierul este prea mare.');
-      const parsed = JSON.parse(await file.text());
-      if (!isValidState(parsed)) throw new Error('Fișier incompatibil sau structură invalidă.');
+      const text = await file.text();
+      const parsed = JSON.parse(text);
+      if (!isValidState(parsed)) throw new Error('Fișier incompatibil.');
       state = parsed;
       saveState();
       applyTheme(state.theme);
       updateAllUI();
       toast('Progresul a fost importat.');
     } catch (error) {
-      toast(`Import eșuat: ${error.message}`, true);
-    } finally {
-      $('#import-progress').value = '';
+      console.error(error);
+      toast('Fișierul de progres nu este valid.', true);
     }
   }
 
   function resetProgress() {
-    if (!confirm('Ștergi toate răspunsurile și sesiunile salvate local? Acțiunea nu poate fi anulată.')) return;
-    const theme = state.theme;
+    if (!confirm('Ștergi definitiv tot progresul salvat pe acest dispozitiv?')) return;
     state = defaultState();
-    state.theme = theme;
     saveState();
+    applyTheme(state.theme);
     updateAllUI();
-    toast('Progresul local a fost resetat.');
-  }
-
-  function toast(message, isError = false) {
-    const host = $('#toast-region');
-    if (!host) return;
-    const item = document.createElement('div');
-    item.className = `toast${isError ? ' is-error' : ''}`;
-    item.textContent = message;
-    host.append(item);
-    setTimeout(() => item.remove(), 3600);
+    toast('Progresul local a fost șters.');
   }
 
   function updateAllUI() {
     updateDashboard();
-    populateTopicFilter();
     updateTrainingAvailability();
-    renderProgress();
-    applyTheme(state.theme);
+    if (!$('#view-progress').hidden) renderProgress();
+  }
+
+  function toast(message, error = false) {
+    const region = $('#toast-region');
+    const element = document.createElement('div');
+    element.className = `toast ${error ? 'is-error' : ''}`;
+    element.textContent = message;
+    region.appendChild(element);
+    requestAnimationFrame(() => element.classList.add('is-visible'));
+    setTimeout(() => {
+      element.classList.remove('is-visible');
+      setTimeout(() => element.remove(), 220);
+    }, 3200);
+  }
+
+  function escapeHtml(value) {
+    return String(value).replace(/[&<>'"]/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[character]);
   }
 
   function bindEvents() {
     $$('[data-view]').forEach(button => button.addEventListener('click', () => setView(button.dataset.view)));
-    $$('[data-go-view]').forEach(button => button.addEventListener('click', () => setView(button.dataset.goView)));
-    $$('[data-subject-open]').forEach(button => button.addEventListener('click', () => {
-      const id = button.dataset.subjectOpen === 'romana' ? '#curriculum-romana' : '#curriculum-istorie';
-      setView('curriculum');
-      requestAnimationFrame(() => document.querySelector(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
-    }));
-
+    $$('[data-go-training]').forEach(button => button.addEventListener('click', () => setView('training')));
     $('#theme-cycle').addEventListener('click', cycleTheme);
     $$('[data-theme-choice]').forEach(button => button.addEventListener('click', () => applyTheme(button.dataset.themeChoice)));
 
     $$('.mode-card').forEach(button => button.addEventListener('click', () => {
       selectedMode = button.dataset.mode;
-      $$('.mode-card').forEach(item => {
-        const active = item === button;
-        item.classList.toggle('is-selected', active);
-        item.setAttribute('aria-checked', String(active));
+      $$('.mode-card').forEach(other => {
+        const active = other === button;
+        other.classList.toggle('is-selected', active);
+        other.setAttribute('aria-checked', String(active));
       });
       updateTrainingAvailability();
     }));
 
-    $('#subject-filter').addEventListener('change', () => { populateTopicFilter(); updateTrainingAvailability(); });
+    $('#subject-filter').addEventListener('change', updateTrainingAvailability);
     $('#topic-filter').addEventListener('change', updateTrainingAvailability);
     $('#count-filter').addEventListener('change', updateTrainingAvailability);
     $('#start-session').addEventListener('click', () => startSession());
+    $('#quick-start').addEventListener('click', () => {
+      selectedMode = 'practice';
+      setView('training');
+      $('#subject-filter').value = 'all';
+      updateTopicFilter();
+      $('#topic-filter').value = 'all';
+      const pool = shuffle(questionBank).slice(0, Math.min(20, questionBank.length));
+      if (pool.length) startSession({ mode: 'practice', questions: pool });
+    });
     $('#next-question').addEventListener('click', nextQuestion);
-    $('#quit-session').addEventListener('click', quitSession);
-    $('#retry-session').addEventListener('click', () => lastSessionConfig && startSession(lastSessionConfig));
-    $('#back-to-setup').addEventListener('click', showTrainingSetup);
-
+    $('#quit-session').addEventListener('click', leaveSession);
+    $('#repeat-session').addEventListener('click', repeatLastSession);
+    $('#back-to-training').addEventListener('click', resetTrainingView);
     $('#export-progress').addEventListener('click', exportProgress);
     $('#import-progress').addEventListener('change', event => importProgress(event.target.files?.[0]));
     $('#reset-progress').addEventListener('click', resetProgress);
-
-    window.addEventListener('hashchange', () => {
-      const view = location.hash.replace('#', '');
-      if (VIEW_META[view]) setView(view, { focus: false });
-    });
   }
 
-  function init() {
+  function initialize() {
     bindEvents();
+    applyTheme(state.theme);
     reloadQuestionBank();
     const initialView = location.hash.replace('#', '');
-    setView(VIEW_META[initialView] ? initialView : 'dashboard', { focus: false });
+    if (VIEW_META[initialView]) setView(initialView, { focus: false });
   }
 
-  window.SnppTraining = Object.freeze({
-    validateQuestionBank,
-    reloadQuestionBank,
-    getQuestionCount: () => questionBank.length,
-    getStateSnapshot: () => JSON.parse(JSON.stringify(state)),
-    startSession: config => startSession(config)
-  });
+  window.SNPPTraining = { reloadQuestionBank, validateQuestionBank };
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });
-  else init();
+  initialize();
 })();
