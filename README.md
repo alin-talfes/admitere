@@ -4,9 +4,16 @@ Platformă statică, neoficială, pentru pregătirea probei scrise de admitere l
 
 ## Stadiu
 
-Aplicația conține interfața, tematica furnizată, motorul de testare, progres local și o bancă modulară de grile istorice aflată în audit.
+Aplicația conține interfața, tematica 2026, motorul de testare, progres local și o bancă modulară de grile istorice auditată gradual.
 
-În versiunea publică sunt încărcate numai loturile 2022 care au trecut filtrul curent de validare. Fișierele 2017–2021 existente în `js/questions/` sunt loturi de staging și nu sunt încărcate de `index.html`. Pentru 2023–2026 nu se importă întrebări până când documentele oficiale relevante nu pot fi inspectate integral.
+Banca activă încarcă în prezent:
+
+- Istoria românilor 2020 — 38 itemi activi din 40; Q1 și Q27 sunt carantinați pentru erori materiale ale subiectului oficial;
+- Istoria românilor 2021 — 30/30 itemi activi;
+- Limba română 2022 — numai itemii importați și necarantinați;
+- Istoria românilor 2022 — 30/30 itemi încărcați.
+
+După aplicarea carantinei, validatorul automat raportează **137 de itemi activi**. Celelalte fișiere din `js/questions/` rămân staging până la închiderea auditului individual. Pentru 2023–2026 nu se importă întrebări dacă documentele oficiale relevante nu pot fi inspectate integral.
 
 Auditul pe ani, eratele identificate, itemii anulați și motivele de carantinare sunt documentate în [`audit/README.md`](audit/README.md) și în fișierele `audit/YYYY.md`.
 
@@ -29,7 +36,7 @@ Fișierele modulare folosesc forma compactă:
   "vocabular",         // tema
   "Enunțul întrebării",
   ["A", "B", "C", "D"],
-  1,                   // correctIndex: 0..3
+  1,                    // correctIndex: 0..3
   "Sursa exactă",
   "Explicație verificabilă"
 ]
@@ -48,29 +55,40 @@ Fișierele modulare folosesc forma compactă:
 
 ## Carantina de conținut
 
-`QUARANTINED_QUESTION_IDS` din `js/questions.js` blochează itemii pentru care există o problemă materială cunoscută: transcriere ambiguă, formatare esențială pierdută, item oficial defectuos sau alt motiv documentat în audit.
+`QUARANTINED_QUESTION_IDS` din `js/questions.js` blochează itemii pentru care există o problemă materială cunoscută: transcriere ambiguă, formatare esențială pierdută, item oficial defectuos, incompatibilitate normativă cu bibliografia 2026 sau alt motiv documentat în audit.
 
 Un item carantinat poate rămâne în fișierul istoric pentru trasabilitate, dar nu ajunge în `window.QUESTION_BANK` și nu poate apărea într-o sesiune de antrenament.
 
 ## Regula de includere
 
-Faptul că un răspuns apare într-un barem istoric nu este suficient pentru activare. Pentru publicare se verifică, în principiu: sursa oficială, fidelitatea enunțului și variantelor, cheia finală, eratele/contestațiile, eventualele marcaje grafice și compatibilitatea cu tematica și bibliografia concursului țintă.
+Faptul că un răspuns apare într-un barem istoric nu este suficient pentru activare. Pentru publicare se verifică: sursa oficială, fidelitatea enunțului și variantelor, cheia finală, eratele/contestațiile, eventualele marcaje grafice, corectitudinea materială și compatibilitatea cu tematica și bibliografia concursului țintă.
 
 Golurile din numerotare nu se completează prin deducție sau din surse neoficiale.
 
+## QA automat
+
+Banca poate fi verificată local cu:
+
+```bash
+node tools/validate-question-bank.mjs
+```
+
+Validatorul încarcă atât toate modulele de staging, cât și modulele active declarate în `index.html`. Verifică sintaxa, ID-urile, disciplinele, temele, cele patru variante, `correctIndex`, sursa, explicația, modulele active și aplicarea carantinei.
+
+Workflow-ul `.github/workflows/question-bank-qa.yml` execută aceeași verificare automat la fiecare push pe `main` și la pull request. Prima rulare după introducerea validatorului a trecut cu succes: 13 module, 660 itemi structurali valizi în staging după carantină și 137 itemi activi.
+
 ## GitHub Pages
 
-Repository-ul poate fi publicat direct din branch-ul `main`, folderul `/ (root)`. Toate căile sunt relative, astfel încât site-ul funcționează corect și sub calea `/admitere/`.
+Repository-ul este compatibil cu publicarea directă din branch-ul `main`, folderul `/ (root)`. Toate căile sunt relative, astfel încât site-ul funcționează corect și sub calea `/admitere/`.
 
-## Verificări recomandate după modificarea grilelor
+## Verificări funcționale recomandate după modificarea aplicației
 
-1. deschiderea aplicației fără erori în consolă;
-2. verificarea numărului de itemi înregistrați și a listei `QUESTION_AUDIT.skipped`;
-3. filtrarea după materie și temă;
-4. sesiune în modul Învățare;
-5. sesiune în modul Test;
-6. reluarea greșelilor;
-7. export/import progres;
-8. verificare responsive pe mobil.
+1. rularea `node tools/validate-question-bank.mjs`;
+2. deschiderea aplicației fără erori în consolă;
+3. verificarea numărului de itemi și a listei `QUESTION_AUDIT.skipped`;
+4. filtrarea după materie și temă;
+5. sesiuni în modurile Învățare, Test și Greșeli;
+6. export/import progres;
+7. verificare responsive pe mobil.
 
 > Platforma este neoficială și nu este afiliată Administrației Naționale a Penitenciarelor sau Școlii Naționale de Poliție Penitenciară.
