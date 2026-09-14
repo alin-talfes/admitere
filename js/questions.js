@@ -80,6 +80,9 @@
     '2017-ro-052',
 
     // 2013 Istorie: erori materiale ale subiectului oficial.
+    // Q11 da 625.000 drept pierderi totale ale armatei romane in razboi; datele MApN indica
+    // 794.562 pierderi totale, dintre care 624.740 numai in campania din est.
+    '2013-ist-011',
     // Q24 indica 1522 pentru transformarea Banatului in pasalac; anul corect este 1552,
     // iar acesta nu apare intre variante.
     '2013-ist-024',
