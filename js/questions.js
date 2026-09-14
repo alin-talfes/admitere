@@ -7,7 +7,8 @@
  *
  * IMPORTANT: o grila aflata in QUARANTINED_QUESTION_IDS nu ajunge in banca activa.
  * Carantina este folosita pentru itemi care necesita reverificarea transcrierii,
- * a formatarii (de ex. cuvinte subliniate) sau a compatibilitatii cu bibliografia 2026.
+ * a formatarii, contin erori materiale in subiectul oficial sau necesita verificarea
+ * compatibilitatii cu bibliografia curenta.
  */
 (() => {
   'use strict';
@@ -19,8 +20,14 @@
     '2022-ro-031',
     '2022-ro-033',
 
-    // 2020: cuvantul subliniat nu este identificabil in transcrierea text simplu.
+    // 2020: item de romana dependent de cuvantul subliniat in original.
     '2020-ro-032',
+
+    // 2020 Istorie: probleme materiale ale subiectului oficial.
+    // Q1 ofera 1900/2000/1800/1990, desi Palatul Parlamentului a inceput sa fie construit in anii 1980.
+    '2020-ist-001',
+    // Q27 mentioneaza 18.180.311 ha; cifra documentata pentru reforma agrara este 1.810.311 ha.
+    '2020-ist-027',
 
     // 2019: itemi care cer analiza unor cuvinte marcate/subliniate in original.
     '2019-ro-015',
