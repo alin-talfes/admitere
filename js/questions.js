@@ -48,27 +48,64 @@
     '2017-ro-052'
   ]);
 
+  const VALID_SUBJECTS = new Set(['romana', 'istorie']);
+  const seenQuestionIds = new Set();
+
   window.QUESTION_AUDIT = {
     quarantined: QUARANTINED_QUESTION_IDS,
-    skipped: []
+    skipped: [],
+    registered: 0
+  };
+
+  const validateQuestion = (item, index) => {
+    if (!Array.isArray(item) || item.length < 6) {
+      throw new TypeError(`Grila #${index + 1} din lot are o structura invalida.`);
+    }
+
+    const [id, subject, topic, prompt, options, correctIndex, source = '', explanation = ''] = item;
+
+    if (typeof id !== 'string' || !/^\d{4}-(?:ro|ist)-\d{3}$/.test(id)) {
+      throw new TypeError(`Grila #${index + 1} are un ID invalid: ${String(id)}.`);
+    }
+    if (seenQuestionIds.has(id)) {
+      throw new Error(`ID de grila duplicat: ${id}.`);
+    }
+    if (!VALID_SUBJECTS.has(subject)) {
+      throw new TypeError(`Materia este invalida pentru ${id}: ${String(subject)}.`);
+    }
+    if (typeof topic !== 'string' || topic.trim() === '') {
+      throw new TypeError(`Tema lipseste pentru ${id}.`);
+    }
+    if (typeof prompt !== 'string' || prompt.trim() === '') {
+      throw new TypeError(`Enuntul lipseste pentru ${id}.`);
+    }
+    if (!Array.isArray(options) || options.length !== 4 || options.some((option) => typeof option !== 'string' || option.trim() === '')) {
+      throw new TypeError(`Grila ${id} trebuie sa aiba exact 4 variante text nevid.`);
+    }
+    if (!Number.isInteger(correctIndex) || correctIndex < 0 || correctIndex > 3) {
+      throw new RangeError(`Indicele raspunsului corect este invalid pentru ${id}: ${String(correctIndex)}.`);
+    }
+    if (typeof source !== 'string' || typeof explanation !== 'string') {
+      throw new TypeError(`Sursa si explicatia trebuie sa fie text pentru ${id}.`);
+    }
+
+    seenQuestionIds.add(id);
+    return { id, subject, topic, prompt, options, correctIndex, source, explanation };
   };
 
   window.registerQuestionBatch = (items) => {
     if (!Array.isArray(items)) throw new TypeError('Lotul de grile trebuie sa fie un array.');
 
     items.forEach((item, index) => {
-      if (!Array.isArray(item) || item.length < 6) {
-        throw new TypeError(`Grila #${index + 1} din lot are o structura invalida.`);
-      }
+      const question = validateQuestion(item, index);
 
-      const [id, subject, topic, prompt, options, correctIndex, source = '', explanation = ''] = item;
-
-      if (QUARANTINED_QUESTION_IDS.has(id)) {
-        window.QUESTION_AUDIT.skipped.push(id);
+      if (QUARANTINED_QUESTION_IDS.has(question.id)) {
+        window.QUESTION_AUDIT.skipped.push(question.id);
         return;
       }
 
-      window.QUESTION_BANK.push({ id, subject, topic, prompt, options, correctIndex, source, explanation });
+      window.QUESTION_BANK.push(question);
+      window.QUESTION_AUDIT.registered += 1;
     });
   };
 })();
