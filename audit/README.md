@@ -33,7 +33,7 @@ Baremul istoric dovedește ce a fost punctat la examenul din anul respectiv. Nu 
 | 2019 | staging; Q35 anulat oficial; 9 itemi carantinați, inclusiv Q39 după verificarea accentului DOOM 3 | cheie verificată integral | nu |
 | 2018 | staging; Q40/Q57/Q63 excluse, Q8 neimportat | cheie verificată integral | nu |
 | 2017 | staging; Q23/Q52 excluse, Q3/Q4/Q6 neimportate | erata Q9 aplicată; audit integral în curs | nu |
-| 2016 | neimportat; erată oficială la proba de Limba română identificată | neimportat | nu |
+| 2016 | neimportat; erata oficială verificată: modifică doar calculul punctajului, nu cheia | sursă oficială identificată; neimportat | nu |
 | 2015 | neimportat; ambele grile oficiale și contestațiile sunt listate în arhivă | neimportat | nu |
 | 2014 | neimportat; există și o soluționare ulterioară individuală publicată în 2017 | erată oficială a grilei identificată, conținutul exact încă nerecuperat | nu |
 | 2013 | grilă oficială identificată; neimportat | PDF oficial deschis; itemii 1–50 inspectați, pagina cu 51–60 nu s-a redat stabil | nu |
