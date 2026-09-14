@@ -29,6 +29,8 @@ Baremul istoric dovedește ce a fost punctat la examenul din anul respectiv. Nu 
 | 2019 | staging; Q35 anulat oficial; 6 itemi dependenți de subliniere excluși | cheie verificată integral | nu |
 | 2018 | staging; Q40/Q63 excluse, Q8 neimportat | cheie verificată integral | nu |
 | 2017 | staging; Q52 exclus, Q3/Q4/Q6 neimportate | erata Q9 aplicată; audit integral în curs | nu |
+| 2016 | neimportat; erată oficială la proba de Limba română identificată | neimportat | nu |
+| 2015 | neimportat; surse oficiale identificate | neimportat | nu |
 
 Detaliile și justificările sunt în fișierele `YYYY.md`.
 
