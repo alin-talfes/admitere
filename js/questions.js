@@ -77,7 +77,14 @@
     // Q23 are in transcrierea curenta doua perechi care pot fi sinonimice.
     '2017-ro-023',
     // Q52 se deosebeste prin numarul de "i" in original, dar transcrierea curenta afiseaza variante identice.
-    '2017-ro-052'
+    '2017-ro-052',
+
+    // 2013 Istorie: erori materiale ale subiectului oficial.
+    // Q24 indica 1522 pentru transformarea Banatului in pasalac; anul corect este 1552,
+    // iar acesta nu apare intre variante.
+    '2013-ist-024',
+    // Q35 atribuie in mod eronat Sfatului Tarii hotararea unirii Bucovinei cu Romania.
+    '2013-ist-035'
   ]);
 
   const VALID_SUBJECTS = new Set(['romana', 'istorie']);
