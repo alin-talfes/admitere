@@ -29,8 +29,8 @@ Baremul istoric dovedește ce a fost punctat la examenul din anul respectiv. Nu 
 | 2023 | barem oficial identificat pe ANP, dar PDF-ul nu a putut fi inspectat integral | barem oficial identificat pe ANP, dar PDF-ul nu a putut fi inspectat integral | nu |
 | 2022 | parțial validat; erată Q4 aplicată; Q31/Q33 excluse | cheie verificată | da |
 | 2021 | text + variante + cheie verificate; Q10/Q16 excluse după filtrul DOOM 3 | text + variante + cheie verificate integral | nu |
-| 2020 | staging; Q32/Q43 excluse | cheie verificată integral; Q1/Q27 excluse pentru erori materiale | nu |
-| 2019 | staging; Q35 anulat oficial; 8 itemi carantinați | cheie verificată integral | nu |
+| 2020 | staging; Q32/Q43/Q48 excluse după auditul de formatare/normă 2026 | cheie verificată integral; Q1/Q27 excluse pentru erori materiale | nu |
+| 2019 | staging; Q35 anulat oficial; 9 itemi carantinați, inclusiv Q39 după verificarea accentului DOOM 3 | cheie verificată integral | nu |
 | 2018 | staging; Q40/Q57/Q63 excluse, Q8 neimportat | cheie verificată integral | nu |
 | 2017 | staging; Q23/Q52 excluse, Q3/Q4/Q6 neimportate | erata Q9 aplicată; audit integral în curs | nu |
 | 2016 | neimportat; erată oficială la proba de Limba română identificată | neimportat | nu |
