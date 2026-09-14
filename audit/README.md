@@ -27,9 +27,9 @@ Baremul istoric dovedește ce a fost punctat la examenul din anul respectiv. Nu 
 | 2025 | neimportat; pagina oficială a sesiunii identificată | neimportat | nu |
 | 2024 | neimportat; pagina oficială a sesiunii identificată | neimportat | nu |
 | 2023 | barem oficial identificat pe ANP, dar PDF-ul nu a putut fi inspectat integral | barem oficial identificat pe ANP, dar PDF-ul nu a putut fi inspectat integral | nu |
-| 2022 | parțial validat; erată Q4 aplicată; Q31/Q33 excluse | cheie verificată | da |
-| 2021 | text + variante + cheie verificate; Q10/Q16 excluse după filtrul DOOM 3 | **30/30 text + variante + cheie verificate; eligibil pentru activare** | nu |
-| 2020 | staging; Q32/Q43/Q48 excluse după auditul de formatare/normă 2026 | **40/40 fidelitate verificată; 38 eligibili, Q1/Q27 carantinați** | nu |
+| 2022 | parțial validat; erată Q4 aplicată; Q31/Q33 excluse | cheie verificată | **da** |
+| 2021 | text + variante + cheie verificate; Q10/Q16 excluse după filtrul DOOM 3 | **30/30 verificați și activi** | **da, doar Istorie** |
+| 2020 | staging; Q32/Q43/Q48 excluse după auditul de formatare/normă 2026 | **40/40 fidelitate verificată; 38 activi, Q1/Q27 carantinați** | **da, doar Istorie** |
 | 2019 | staging; Q35 anulat oficial; 11 itemi carantinați, inclusiv Q39 după verificarea accentului DOOM 3 | cheia 1–60 verificată; text + variante verificate pentru 13–60; 1–12 încă de confruntat vizual | nu |
 | 2018 | staging; Q40/Q57/Q63 excluse, Q8 neimportat | cheie verificată integral; fidelitate integrală încă neînchisă | nu |
 | 2017 | staging; Q23/Q52 excluse, Q3/Q4/Q6 neimportate | erata Q9 aplicată; audit integral în curs | nu |
@@ -41,6 +41,34 @@ Baremul istoric dovedește ce a fost punctat la examenul din anul respectiv. Nu 
 | 2011 | PDF oficial identificat; redarea paginilor Română a eșuat | grila 1–60 și itemii 1–44 inspectați; 45–60 încă nerecuperați integral | nu |
 
 Detaliile și justificările sunt în fișierele `YYYY.md`.
+
+## Banca activă
+
+Loaderul din `index.html` încarcă, în această ordine:
+
+- `2020-history.js`;
+- `2021-history.js`;
+- `2022-ro.js`;
+- `2022-history.js`.
+
+După aplicarea carantinei, banca activă conține **137 de itemi**. Dintre modulele active sunt opriți automat patru itemi: `2020-ist-001`, `2020-ist-027`, `2022-ro-031`, `2022-ro-033`.
+
+## QA automat
+
+Repository-ul conține `tools/validate-question-bank.mjs` și workflow-ul `.github/workflows/question-bank-qa.yml`.
+
+La fiecare push pe `main` și la fiecare pull request sunt verificate automat:
+
+- sintaxa și încărcarea tuturor modulelor din `js/questions/`;
+- formatul și unicitatea ID-urilor;
+- disciplina și tema;
+- existența enunțului și a exact patru variante nevid;
+- `correctIndex`;
+- sursa și explicația;
+- existența tuturor modulelor declarate active în `index.html`;
+- faptul că itemii din carantină nu ajung în banca activă.
+
+Prima rulare a validatorului după activarea loturilor 2020/2021 a trecut cu succes: 13 module verificate, 660 itemi structurali valizi în staging după carantină și 137 itemi activi după carantină.
 
 ## Carantină tehnică
 
