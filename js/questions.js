@@ -35,7 +35,10 @@
     '2019-ro-027',
     '2019-ro-047',
     '2019-ro-048',
-    '2019-ro-065'
+    '2019-ro-065',
+
+    // 2018: itemul cere cazurile pronumelor subliniate; marcajele nu sunt pastrate in text simplu.
+    '2018-ro-063'
   ]);
 
   window.QUESTION_AUDIT = {
