@@ -47,15 +47,24 @@
     '2019-ro-047',
     '2019-ro-048',
     '2019-ro-065',
+    // Q44 contine un distractor corupt in transcrierea curenta ("i erbivor").
+    '2019-ro-044',
+    // Q58 cere numararea cuvintelor corect accentuate, dar marcajele de accent nu sunt pastrate.
+    '2019-ro-058',
 
     // 2018: transcriere incompleta/corupta sau marcaje grafice pierdute.
     // Q40 are un prompt intern contradictoriu in transcrierea curenta.
     '2018-ro-040',
+    // Q57 are in transcrierea curenta cel putin doua enunturi cu forma corecta a verbului "a fi".
+    // Ramane blocat pana la confruntarea cu scanul oficial.
+    '2018-ro-057',
     // Q63 cere cazurile pronumelor subliniate; marcajele nu sunt pastrate in text simplu.
     '2018-ro-063',
 
-    // 2017: variantele Q52 se deosebesc prin numarul de "i" in original,
-    // dar transcrierea curenta le afiseaza identic si itemul nu poate fi rezolvat corect.
+    // 2017: itemi care necesita reverificarea scanului oficial.
+    // Q23 are in transcrierea curenta doua perechi care pot fi sinonimice.
+    '2017-ro-023',
+    // Q52 se deosebeste prin numarul de "i" in original, dar transcrierea curenta afiseaza variante identice.
     '2017-ro-052'
   ]);
 
