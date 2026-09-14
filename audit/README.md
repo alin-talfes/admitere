@@ -28,12 +28,12 @@ Baremul istoric dovedește ce a fost punctat la examenul din anul respectiv. Nu 
 | 2024 | neimportat; pagina oficială a sesiunii identificată | neimportat | nu |
 | 2023 | barem oficial identificat pe ANP, dar PDF-ul nu a putut fi inspectat integral | barem oficial identificat pe ANP, dar PDF-ul nu a putut fi inspectat integral | nu |
 | 2022 | parțial validat; erată Q4 aplicată; Q31/Q33 excluse | cheie verificată | da |
-| 2021 | text + variante + cheie verificate; Q10/Q16 excluse după filtrul DOOM 3 | text + variante + cheie verificate integral | nu |
-| 2020 | staging; Q32/Q43/Q48 excluse după auditul de formatare/normă 2026 | cheie verificată integral; Q1/Q27 excluse pentru erori materiale | nu |
-| 2019 | staging; Q35 anulat oficial; 11 itemi carantinați, inclusiv Q39 după verificarea accentului DOOM 3 | cheie verificată integral | nu |
-| 2018 | staging; Q40/Q57/Q63 excluse, Q8 neimportat | cheie verificată integral | nu |
+| 2021 | text + variante + cheie verificate; Q10/Q16 excluse după filtrul DOOM 3 | **30/30 text + variante + cheie verificate; eligibil pentru activare** | nu |
+| 2020 | staging; Q32/Q43/Q48 excluse după auditul de formatare/normă 2026 | **40/40 fidelitate verificată; 38 eligibili, Q1/Q27 carantinați** | nu |
+| 2019 | staging; Q35 anulat oficial; 11 itemi carantinați, inclusiv Q39 după verificarea accentului DOOM 3 | cheia 1–60 verificată; text + variante verificate pentru 13–60; 1–12 încă de confruntat vizual | nu |
+| 2018 | staging; Q40/Q57/Q63 excluse, Q8 neimportat | cheie verificată integral; fidelitate integrală încă neînchisă | nu |
 | 2017 | staging; Q23/Q52 excluse, Q3/Q4/Q6 neimportate | erata Q9 aplicată; audit integral în curs | nu |
-| 2016 | neimportat; erata oficială verificată: modifică doar calculul punctajului, nu cheia | sursă oficială identificată; neimportat | nu |
+| 2016 | neimportat; erata oficială verificată: modifică doar calculul punctajului, nu cheia | sursă oficială identificată; PDF-ul oficial are 6 pagini, dar redarea nu este stabilă | nu |
 | 2015 | neimportat; ambele grile oficiale și contestațiile sunt listate în arhivă | neimportat | nu |
 | 2014 | neimportat; există și o soluționare ulterioară individuală publicată în 2017 | erată oficială a grilei identificată, conținutul exact încă nerecuperat | nu |
 | 2013 | PDF oficial identificat; neimportat | **60/60 itemi recuperați în staging; Q24/Q35 carantinate pentru erori materiale** | nu |
