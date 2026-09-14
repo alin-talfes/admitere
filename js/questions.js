@@ -51,11 +51,16 @@
     '2019-ro-047',
     '2019-ro-048',
     '2019-ro-065',
+    // Q24 are doua variante transcrise identic desi baremul indica o singura litera;
+    // diferenta grafica de accent trebuie recuperata din scanul oficial.
+    '2019-ro-024',
     // Q39 are cheia istorica pe o serie care accentueaza „taxi” pe prima silaba.
     // DOOM3 recomanda accentul final: taxí; itemul nu mai are raspunsul istoric valabil.
     '2019-ro-039',
     // Q44 contine un distractor corupt in transcrierea curenta ("i erbivor").
     '2019-ro-044',
+    // Q57 contine cel putin o forma grafica pierduta/corupta ("binemeritata") si necesita scanul original.
+    '2019-ro-057',
     // Q58 cere numararea cuvintelor corect accentuate, dar marcajele de accent nu sunt pastrate.
     '2019-ro-058',
 
