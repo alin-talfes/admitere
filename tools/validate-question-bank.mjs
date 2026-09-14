@@ -7,6 +7,7 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '..');
 const QUESTIONS_DIR = path.join(ROOT, 'js', 'questions');
 const REGISTRY = path.join(ROOT, 'js', 'questions.js');
+const APP = path.join(ROOT, 'js', 'app.js');
 const INDEX = path.join(ROOT, 'index.html');
 
 const TOPICS = {
@@ -78,9 +79,6 @@ function validateModuleIdentity(file, beforeCount, sandbox) {
   const expectedSubject = kind === 'ro' ? 'romana' : 'istorie';
   const expectedIdPart = kind === 'ro' ? '-ro-' : '-ist-';
 
-  // QUESTION_AUDIT.registered crește doar pentru itemii necarantinați. Pentru identitatea
-  // modulului inspectăm banca adăugată; itemii carantinați sunt validați structural chiar
-  // în registerQuestionBatch înainte să fie omiși.
   sandbox.window.QUESTION_BANK.slice(beforeCount).forEach(question => {
     if (!question.id.startsWith(`${year}${expectedIdPart}`)) {
       fail(`${path.basename(file)} conține ID din alt an/tip: ${question.id}.`);
@@ -130,8 +128,63 @@ function getActiveModuleFiles() {
   });
 }
 
+function validateDomContract() {
+  const html = fs.readFileSync(INDEX, 'utf8');
+  const app = fs.readFileSync(APP, 'utf8');
+
+  const htmlIds = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
+  const duplicateIds = htmlIds.filter((id, index) => htmlIds.indexOf(id) !== index);
+  if (duplicateIds.length) fail(`ID-uri HTML duplicate: ${[...new Set(duplicateIds)].join(', ')}`);
+  const idSet = new Set(htmlIds);
+
+  const htmlClasses = new Set();
+  for (const match of html.matchAll(/\bclass="([^"]+)"/g)) {
+    match[1].split(/\s+/).filter(Boolean).forEach(className => htmlClasses.add(className));
+  }
+
+  // $() returnează un singur element sau null. Orice selector static simplu folosit
+  // astfel trebuie să existe în HTML, altfel codul poate crăpa la accesarea proprietăților
+  // sau la addEventListener (exact tipul de regresie pe care vrem să îl prevenim).
+  const singleSelectors = [...app.matchAll(/\$\(\s*['"]([#.][A-Za-z0-9_-]+)['"]\s*\)/g)]
+    .map(match => match[1]);
+
+  for (const selector of new Set(singleSelectors)) {
+    if (selector.startsWith('#') && !idSet.has(selector.slice(1))) {
+      fail(`Contract DOM rupt: app.js folosește ${selector}, dar index.html nu conține acest ID.`);
+    }
+    if (selector.startsWith('.') && !htmlClasses.has(selector.slice(1))) {
+      fail(`Contract DOM rupt: app.js folosește ${selector}, dar index.html nu conține această clasă.`);
+    }
+  }
+
+  // Pentru bind-urile directe cerem explicit existența ID-ului. Astfel un rename în HTML
+  // nu poate transforma inițializarea într-o excepție silențioasă în browser.
+  const directListenerIds = [...app.matchAll(/\$\(\s*['"]#([A-Za-z0-9_-]+)['"]\s*\)\.addEventListener\s*\(/g)]
+    .map(match => match[1]);
+  for (const id of new Set(directListenerIds)) {
+    if (!idSet.has(id)) fail(`Listener către ID inexistent: #${id}.`);
+  }
+
+  // Atributele de navigare obligatorii din interfața actuală trebuie să aibă și handler.
+  const requiredDataHooks = ['data-view', 'data-go-training', 'data-mode'];
+  for (const attribute of requiredDataHooks) {
+    if (!new RegExp(`\\b${attribute}(?:=|\\s|>)`).test(html)) {
+      fail(`index.html nu mai conține hook-ul obligatoriu ${attribute}.`);
+    }
+    if (!app.includes(`[${attribute}]`)) {
+      fail(`app.js nu mai leagă hook-ul obligatoriu [${attribute}].`);
+    }
+  }
+
+  return {
+    htmlIds: htmlIds.length,
+    singleSelectors: new Set(singleSelectors).size,
+    directListeners: new Set(directListenerIds).size
+  };
+}
+
 function main() {
-  if (!fs.existsSync(REGISTRY) || !fs.existsSync(INDEX) || !fs.existsSync(QUESTIONS_DIR)) {
+  if (!fs.existsSync(REGISTRY) || !fs.existsSync(APP) || !fs.existsSync(INDEX) || !fs.existsSync(QUESTIONS_DIR)) {
     fail('Structura repository-ului nu este cea așteptată.');
   }
 
@@ -143,6 +196,7 @@ function main() {
   const activeModules = getActiveModuleFiles();
   const staging = loadModules(allModules, 'staging');
   const active = loadModules(activeModules, 'activ');
+  const dom = validateDomContract();
 
   console.log('QA banca de grile: OK');
   console.log(`Module totale verificate: ${allModules.length}`);
@@ -151,6 +205,7 @@ function main() {
   console.log(`Itemi activi după carantină: ${active.registered}`);
   console.log(`Itemi carantinați întâlniți în modulele active: ${active.quarantinedLoaded}`);
   if (active.skipped.length) console.log(`Carantină activă: ${active.skipped.join(', ')}`);
+  console.log(`Contract DOM: OK (${dom.htmlIds} ID-uri, ${dom.singleSelectors} selectori $(), ${dom.directListeners} listenere directe).`);
 }
 
 try {
