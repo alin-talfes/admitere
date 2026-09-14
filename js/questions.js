@@ -1,19 +1,25 @@
 /**
- * Banca de grile pentru Admitere SNPP Training.
+ * Registru modular pentru banca de grile Admitere SNPP Training.
  *
- * Fiecare întrebare trebuie să respecte schema:
- * {
- *   id: "ro-vocab-001",                    // unic, stabil
- *   subject: "romana" | "istorie",
- *   topic: "vocabular",                    // cheie de temă existentă în app.js
- *   prompt: "Enunțul întrebării",
- *   options: ["Varianta A", "Varianta B", "Varianta C", "Varianta D"],
- *   correctIndex: 1,                        // index 0-based; exact un răspuns corect
- *   explanation: "Explicație scurtă și verificabilă.",
- *   source: "Sursa / pagina / norma bibliografică"
- * }
- *
- * Nu există întrebări demonstrative în versiunea inițială. Banca va fi populată
- * ulterior numai cu grile verificate.
+ * Fisierele pe ani se incarca dupa acest fisier si inainte de app.js.
+ * Fiecare rand dintr-un lot are forma:
+ * [id, subject, topic, prompt, options, correctIndex, source, explanation]
  */
-window.QUESTION_BANK = [];
+(() => {
+  'use strict';
+
+  window.QUESTION_BANK = [];
+
+  window.registerQuestionBatch = (items) => {
+    if (!Array.isArray(items)) throw new TypeError('Lotul de grile trebuie sa fie un array.');
+
+    items.forEach((item, index) => {
+      if (!Array.isArray(item) || item.length < 6) {
+        throw new TypeError(`Grila #${index + 1} din lot are o structura invalida.`);
+      }
+
+      const [id, subject, topic, prompt, options, correctIndex, source = '', explanation = ''] = item;
+      window.QUESTION_BANK.push({ id, subject, topic, prompt, options, correctIndex, source, explanation });
+    });
+  };
+})();
