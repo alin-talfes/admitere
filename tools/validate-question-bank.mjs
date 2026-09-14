@@ -142,8 +142,6 @@ function validateDomContract() {
     match[1].split(/\s+/).filter(Boolean).forEach(className => htmlClasses.add(className));
   }
 
-  // Unele elemente sunt create numai în JavaScript (de exemplu answer-button), deci
-  // clasele lor nu trebuie să existe inițial în index.html.
   const dynamicClasses = new Set();
   for (const match of app.matchAll(/\.className\s*=\s*['"]([^'"]+)['"]/g)) {
     match[1].split(/\s+/).filter(Boolean).forEach(className => dynamicClasses.add(className));
@@ -152,8 +150,6 @@ function validateDomContract() {
     dynamicClasses.add(match[1]);
   }
 
-  // $() returnează un singur element sau null. Selectoarele statice simple trebuie să
-  // existe fie în HTML, fie să desemneze o clasă creată explicit dinamic de app.js.
   const singleSelectors = [...app.matchAll(/\$\(\s*['"]([#.][A-Za-z0-9_-]+)['"]\s*\)/g)]
     .map(match => match[1]);
 
@@ -175,13 +171,19 @@ function validateDomContract() {
     if (!idSet.has(id)) fail(`Listener către ID inexistent: #${id}.`);
   }
 
-  const requiredDataHooks = ['data-view', 'data-go-training', 'data-mode'];
-  for (const attribute of requiredDataHooks) {
-    if (!new RegExp(`\\b${attribute}(?:=|\\s|>)`).test(html)) {
-      fail(`index.html nu mai conține hook-ul obligatoriu ${attribute}.`);
+  // Contracte de navigare/control pe care aplicația le folosește în moduri diferite.
+  const requiredHooks = [
+    { attribute: 'data-view', handledBy: ['[data-view]'] },
+    { attribute: 'data-go-training', handledBy: ['[data-go-training]'] },
+    { attribute: 'data-mode', handledBy: ['.mode-card', 'dataset.mode'] }
+  ];
+
+  for (const hook of requiredHooks) {
+    if (!new RegExp(`\\b${hook.attribute}(?:=|\\s|>)`).test(html)) {
+      fail(`index.html nu mai conține hook-ul obligatoriu ${hook.attribute}.`);
     }
-    if (!app.includes(`[${attribute}]`)) {
-      fail(`app.js nu mai leagă hook-ul obligatoriu [${attribute}].`);
+    if (!hook.handledBy.every(token => app.includes(token))) {
+      fail(`app.js nu mai gestionează corect hook-ul ${hook.attribute}.`);
     }
   }
 
