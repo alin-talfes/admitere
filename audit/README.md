@@ -11,7 +11,7 @@ Un item poate intra în banca activă numai dacă sunt îndeplinite cumulativ ur
 1. sursa oficială a sesiunii este identificată;
 2. enunțul și toate cele patru variante sunt reproduse fidel;
 3. cheia este verificată în baremul/grila oficială finală;
-4. toate eratele și, dacă sunt relevante, rezultatele contestațiilor au fost verificate;
+4. toate eratele și, dacă sunt relevante, rezultatele contestațiilor și corecțiile ulterioare au fost verificate;
 5. itemul nu depinde de o formatare pierdută la transcriere (subliniere, grafie distinctivă, accent etc.);
 6. nu conține o eroare materială care ar transmite candidatului o informație falsă;
 7. pentru Limba română, regula testată este compatibilă cu bibliografia/norma folosită la concursul țintă din 2026;
@@ -27,14 +27,18 @@ Baremul istoric dovedește ce a fost punctat la examenul din anul respectiv. Nu 
 | 2025 | neimportat; pagina oficială a sesiunii identificată | neimportat | nu |
 | 2024 | neimportat; pagina oficială a sesiunii identificată | neimportat | nu |
 | 2023 | barem oficial identificat pe ANP, dar PDF-ul nu a putut fi inspectat integral | barem oficial identificat pe ANP, dar PDF-ul nu a putut fi inspectat integral | nu |
-| 2022 | parțial validat; erată Q4 aplicată; itemi ambigui excluși | cheie verificată | da |
-| 2021 | cheie verificată; necesită audit normativ 2026 | cheie verificată | nu |
-| 2020 | staging; item dependent de subliniere exclus | cheie verificată; Q1 și Q27 excluse pentru erori materiale | nu |
-| 2019 | staging; Q35 anulat oficial; 6 itemi dependenți de subliniere excluși | cheie verificată integral | nu |
-| 2018 | staging; Q40/Q63 excluse, Q8 neimportat | cheie verificată integral | nu |
-| 2017 | staging; Q52 exclus, Q3/Q4/Q6 neimportate | erata Q9 aplicată; audit integral în curs | nu |
+| 2022 | parțial validat; erată Q4 aplicată; Q31/Q33 excluse | cheie verificată | da |
+| 2021 | text + variante + cheie verificate; Q10/Q16 excluse după filtrul DOOM 3 | text + variante + cheie verificate integral | nu |
+| 2020 | staging; Q32/Q43 excluse | cheie verificată integral; Q1/Q27 excluse pentru erori materiale | nu |
+| 2019 | staging; Q35 anulat oficial; 8 itemi carantinați | cheie verificată integral | nu |
+| 2018 | staging; Q40/Q57/Q63 excluse, Q8 neimportat | cheie verificată integral | nu |
+| 2017 | staging; Q23/Q52 excluse, Q3/Q4/Q6 neimportate | erata Q9 aplicată; audit integral în curs | nu |
 | 2016 | neimportat; erată oficială la proba de Limba română identificată | neimportat | nu |
-| 2015 | neimportat; surse oficiale identificate | neimportat | nu |
+| 2015 | neimportat; ambele grile oficiale și contestațiile sunt listate în arhivă | neimportat | nu |
+| 2014 | neimportat; există și o soluționare ulterioară individuală publicată în 2017 | erată oficială a grilei identificată, conținutul exact încă nerecuperat | nu |
+| 2013 | grilă oficială identificată; neimportat | PDF oficial deschis; itemii 1–50 inspectați, pagina cu 51–60 nu s-a redat stabil | nu |
+| 2012 | grilă oficială identificată; neimportat | grilă oficială identificată; neimportat | nu |
+| 2011 | grilă oficială identificată; neimportat | grilă oficială identificată; neimportat | nu |
 
 Detaliile și justificările sunt în fișierele `YYYY.md`.
 
@@ -42,8 +46,18 @@ Detaliile și justificările sunt în fișierele `YYYY.md`.
 
 `js/questions.js` conține `QUARANTINED_QUESTION_IDS`. Un item prezent acolo este ignorat de `registerQuestionBatch()` și nu poate ajunge în `window.QUESTION_BANK`.
 
-Registrul validează acum și structura fiecărei întrebări înainte de înregistrare: format ID, disciplină, temă, enunț, exact patru variante text, `correctIndex` între 0 și 3 și unicitatea ID-ului. O structură invalidă oprește încărcarea în loc să introducă silențios date corupte.
+Registrul validează structura fiecărei întrebări înainte de înregistrare: format ID, disciplină, temă, enunț, exact patru variante text nevid, `correctIndex` între 0 și 3 și unicitatea ID-ului. O structură invalidă oprește încărcarea în loc să introducă silențios date corupte.
+
+Carantina nu este rezervată numai eratelor oficiale. Ea se aplică și când:
+
+- un marcaj grafic esențial s-a pierdut la transcriere;
+- staging-ul conține un text corupt sau ambiguu;
+- baremul istoric intră în conflict cu norma actuală relevantă pentru 2026;
+- subiectul oficial conține o eroare materială demonstrabilă;
+- există două răspunsuri plauzibil/corect acceptabile și nu putem restabili fără echivoc forma originală.
 
 ## Politica pentru itemii lipsă
 
 Golurile din numerotare nu se completează prin deducție. Un item lipsă rămâne lipsă până când textul, variantele și cheia pot fi recuperate dintr-o sursă oficială inspectabilă.
+
+Același principiu se aplică anilor pentru care avem numai cheia: nu se creează itemi din memorie, agregatoare, OCR neverificat sau surse secundare.
