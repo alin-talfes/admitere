@@ -1,330 +1,197 @@
 <!doctype html>
-<html lang="ro" data-theme="system">
+<html lang="ro">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="description" content="Platformă neoficială de antrenament pentru admiterea la Școala Națională de Poliție Penitenciară „Constantin Brâncoveanu” Târgu Ocna.">
-  <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#0d2947">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d2b45">
+  <meta name="description" content="Platformă neoficială de antrenament pentru admiterea la Școala Națională de Poliție Penitenciară Târgu Ocna.">
   <title>Admitere SNPP — Training</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <a class="skip-link" href="#main-content">Sari la conținut</a>
-
   <div class="app-shell">
     <aside class="sidebar" aria-label="Navigare principală">
-      <div class="brand">
+      <div class="brand-block">
         <div class="brand-mark" aria-hidden="true">S</div>
         <div>
           <strong>Admitere SNPP</strong>
-          <span>Training 2026</span>
+          <span>Training</span>
         </div>
       </div>
 
-      <nav class="side-nav">
-        <button class="nav-item is-active" type="button" data-view="dashboard" aria-current="page">
-          <span class="nav-icon" aria-hidden="true">⌂</span><span>Acasă</span>
-        </button>
-        <button class="nav-item" type="button" data-view="training">
-          <span class="nav-icon" aria-hidden="true">✓</span><span>Antrenament</span>
-        </button>
-        <button class="nav-item" type="button" data-view="curriculum">
-          <span class="nav-icon" aria-hidden="true">≡</span><span>Tematică</span>
-        </button>
-        <button class="nav-item" type="button" data-view="progress">
-          <span class="nav-icon" aria-hidden="true">↗</span><span>Progres</span>
-        </button>
-        <button class="nav-item" type="button" data-view="settings">
-          <span class="nav-icon" aria-hidden="true">⚙</span><span>Setări</span>
-        </button>
+      <nav class="sidebar-nav">
+        <button class="nav-item is-active" type="button" data-view="dashboard" aria-current="page"><span class="nav-icon">⌂</span><span>Acasă</span></button>
+        <button class="nav-item" type="button" data-view="training"><span class="nav-icon">✓</span><span>Antrenament</span></button>
+        <button class="nav-item" type="button" data-view="curriculum"><span class="nav-icon">≡</span><span>Tematică</span></button>
+        <button class="nav-item" type="button" data-view="progress"><span class="nav-icon">↗</span><span>Progres</span></button>
+        <button class="nav-item" type="button" data-view="settings"><span class="nav-icon">⚙</span><span>Setări</span></button>
       </nav>
 
-      <div class="sidebar-note">
-        <strong>Platformă neoficială</strong>
-        <span>Nu este afiliată ANP sau SNPP.</span>
+      <div class="sidebar-footer">
+        <span class="status-dot"></span>
+        <div><strong>Date locale</strong><small>Progresul rămâne pe dispozitiv</small></div>
       </div>
     </aside>
 
-    <div class="content-shell">
+    <div class="workspace">
       <header class="topbar">
         <div>
           <p class="eyebrow" id="view-eyebrow">Pregătire pentru proba scrisă</p>
           <h1 id="view-title">Panou de antrenament</h1>
         </div>
-        <div class="topbar-actions">
-          <span class="local-badge" title="Progresul este salvat exclusiv în acest browser">Salvare locală</span>
-          <button class="icon-button" id="theme-cycle" type="button" aria-label="Schimbă tema" title="Schimbă tema">◐</button>
-        </div>
+        <button class="icon-button" type="button" id="theme-cycle" aria-label="Schimbă tema" title="Schimbă tema">◐</button>
       </header>
 
-      <main id="main-content" tabindex="-1">
+      <main class="content" id="main-content" tabindex="-1">
         <section class="view is-active" id="view-dashboard" data-view-panel="dashboard">
           <div class="hero-card">
             <div class="hero-copy">
-              <span class="pill">Admitere 2026</span>
-              <h2>Antrenează răspunsul corect, nu memorarea mecanică.</h2>
-              <p>Platforma este pregătită pentru grile cu un singur răspuns corect la Limba română și Istoria românilor, cu progres salvat local, recapitularea greșelilor și statistici pe teme.</p>
+              <p class="eyebrow light">Școala Națională de Poliție Penitenciară</p>
+              <h2>Pregătire structurată pentru proba scrisă</h2>
+              <p>Exersează grile verificate, urmărește progresul și revino rapid asupra întrebărilor greșite. Progresul este salvat numai în browser.</p>
               <div class="hero-actions">
-                <button class="button button-primary" type="button" data-go-view="training">Începe antrenamentul</button>
-                <button class="button button-secondary" type="button" data-go-view="curriculum">Vezi tematica</button>
+                <button class="button button-light" type="button" data-go-training>Începe antrenamentul</button>
+                <button class="button button-ghost-light" type="button" data-view="curriculum">Vezi tematica</button>
               </div>
             </div>
-            <div class="hero-score" aria-label="Rezumat progres">
-              <div class="score-ring" id="overall-ring" style="--progress:0deg"><span id="overall-percent">0%</span></div>
-              <strong>Rată de răspuns corect</strong>
-              <span id="overall-caption">Nicio grilă rezolvată încă</span>
+            <div class="hero-score" aria-label="Rata generală de răspunsuri corecte">
+              <div class="score-ring" id="overall-ring"><strong id="overall-percent">0%</strong><span>corecte</span></div>
+              <small id="overall-caption">Nicio grilă rezolvată încă</small>
             </div>
           </div>
 
-          <div class="stats-grid" aria-label="Statistici">
-            <article class="stat-card"><span>Grile rezolvate</span><strong id="stat-answered">0</strong><small>Total răspunsuri înregistrate</small></article>
+          <div class="stats-grid">
+            <article class="stat-card"><span>Răspunsuri</span><strong id="stat-answered">0</strong><small>Total încercări</small></article>
             <article class="stat-card"><span>Corecte</span><strong id="stat-correct">0</strong><small>Răspunsuri corecte</small></article>
-            <article class="stat-card"><span>Sesiuni</span><strong id="stat-sessions">0</strong><small>Teste finalizate</small></article>
-            <article class="stat-card"><span>Întrebări disponibile</span><strong id="stat-bank">0</strong><small>Banca locală de grile</small></article>
+            <article class="stat-card"><span>Sesiuni</span><strong id="stat-sessions">0</strong><small>Finalizate</small></article>
+            <article class="stat-card"><span>Banca de grile</span><strong id="stat-bank">0</strong><small>Întrebări validate</small></article>
           </div>
 
-          <div class="section-heading">
-            <div><p class="eyebrow">Materii</p><h2>Structura pregătirii</h2></div>
+          <div class="dashboard-columns">
+            <section class="panel-card">
+              <div class="section-heading"><div><p class="eyebrow">Materii</p><h2>Progres pe discipline</h2></div><button class="text-button" type="button" data-view="progress">Detalii</button></div>
+              <div class="subject-progress">
+                <div class="subject-row"><div class="subject-badge">RO</div><div class="subject-body"><div class="subject-head"><strong>Limba română</strong><span id="romanian-meta">0 grile disponibile</span></div><div class="progress-line"><span id="romanian-progress"></span></div></div></div>
+                <div class="subject-row"><div class="subject-badge">IS</div><div class="subject-body"><div class="subject-head"><strong>Istoria românilor</strong><span id="history-meta">0 grile disponibile</span></div><div class="progress-line"><span id="history-progress"></span></div></div></div>
+              </div>
+            </section>
+
+            <section class="panel-card quick-start-card">
+              <p class="eyebrow">Sesiune rapidă</p>
+              <h2>Antrenament mixt</h2>
+              <p class="muted">Pornește o sesiune aleatorie din toate întrebările disponibile.</p>
+              <button class="button button-primary full" type="button" id="quick-start">Pornește sesiunea</button>
+              <small>Numărul de întrebări se adaptează băncii disponibile.</small>
+            </section>
           </div>
 
-          <div class="subject-grid">
-            <article class="subject-card">
-              <div class="subject-top"><div class="subject-symbol">R</div><span class="status-dot">15 teme</span></div>
-              <h3>Limba română</h3>
-              <p>Vocabular, fonetică, morfosintaxă și sintaxă, conform tematicii transmise pentru concurs.</p>
-              <div class="progress-line"><span id="romanian-progress" style="width:0%"></span></div>
-              <div class="subject-meta"><span id="romanian-meta">0 grile disponibile</span><button class="text-button" type="button" data-subject-open="romana">Deschide →</button></div>
-            </article>
-            <article class="subject-card">
-              <div class="subject-top"><div class="subject-symbol">I</div><span class="status-dot">6 teme</span></div>
-              <h3>Istoria românilor</h3>
-              <p>Constituții, stat și politică, relații internaționale și România postbelică.</p>
-              <div class="progress-line"><span id="history-progress" style="width:0%"></span></div>
-              <div class="subject-meta"><span id="history-meta">0 grile disponibile</span><button class="text-button" type="button" data-subject-open="istorie">Deschide →</button></div>
-            </article>
-          </div>
-
-          <div class="info-strip">
-            <div class="info-icon" aria-hidden="true">i</div>
-            <div><strong>Etapa 1: platforma.</strong><span>Banca de grile este separată de interfață. O putem popula ulterior fără să refacem aplicația.</span></div>
-          </div>
+          <section class="panel-card notice-card">
+            <div class="notice-icon" aria-hidden="true">i</div>
+            <div><strong>Platformă neoficială de studiu</strong><p>Conținutul este organizat pentru antrenament. Pentru cerințele oficiale ale concursului prevalează documentele publicate de instituția organizatoare.</p></div>
+          </section>
         </section>
 
         <section class="view" id="view-training" data-view-panel="training" hidden>
-          <div class="training-layout">
-            <div class="panel-card setup-card" id="training-setup">
-              <div class="section-heading compact">
-                <div><p class="eyebrow">Generator de sesiune</p><h2>Alege ce vrei să exersezi</h2></div>
-                <span class="bank-chip"><b id="bank-count">0</b> grile</span>
+          <div id="training-setup">
+            <section class="panel-card training-intro">
+              <div class="section-heading"><div><p class="eyebrow">Configurare</p><h2>Alege sesiunea</h2><p class="muted">Selectează modul, materia și volumul de lucru.</p></div><div class="bank-chip"><strong id="bank-count">0</strong><span>grile</span></div></div>
+
+              <div class="mode-grid" role="radiogroup" aria-label="Mod de antrenament">
+                <button class="mode-card is-selected" type="button" data-mode="practice" role="radio" aria-checked="true"><span class="mode-icon">✓</span><strong>Învățare</strong><small>Primești imediat răspunsul corect și explicația.</small></button>
+                <button class="mode-card" type="button" data-mode="test" role="radio" aria-checked="false"><span class="mode-icon">◷</span><strong>Test</strong><small>Rezultatul complet este afișat la final.</small></button>
+                <button class="mode-card" type="button" data-mode="mistakes" role="radio" aria-checked="false"><span class="mode-icon">↻</span><strong>Greșeli</strong><small>Reia întrebările la care ai răspuns greșit ultima dată.</small></button>
               </div>
 
-              <div class="mode-selector" role="radiogroup" aria-label="Mod de antrenament">
-                <button class="mode-card is-selected" type="button" data-mode="practice" role="radio" aria-checked="true">
-                  <span class="mode-icon">◎</span><strong>Învățare</strong><small>Primești imediat răspunsul corect și explicația.</small>
-                </button>
-                <button class="mode-card" type="button" data-mode="test" role="radio" aria-checked="false">
-                  <span class="mode-icon">▣</span><strong>Test</strong><small>Feedback-ul apare doar după finalizarea sesiunii.</small>
-                </button>
-                <button class="mode-card" type="button" data-mode="mistakes" role="radio" aria-checked="false">
-                  <span class="mode-icon">↺</span><strong>Greșeli</strong><small>Reia numai întrebările la care ai greșit anterior.</small>
-                </button>
+              <div class="filters-grid">
+                <label>Materia<select id="subject-filter"><option value="all">Toate materiile</option><option value="romana">Limba română</option><option value="istorie">Istoria românilor</option></select></label>
+                <label>Tema<select id="topic-filter"><option value="all">Toate temele</option></select></label>
+                <label>Număr întrebări<select id="count-filter"><option value="10">10</option><option value="20" selected>20</option><option value="30">30</option><option value="all">Toate</option></select></label>
               </div>
 
-              <div class="form-grid">
-                <label>Materia
-                  <select id="subject-filter">
-                    <option value="all">Ambele materii</option>
-                    <option value="romana">Limba română</option>
-                    <option value="istorie">Istoria românilor</option>
-                  </select>
-                </label>
-                <label>Tema
-                  <select id="topic-filter"><option value="all">Toate temele</option></select>
-                </label>
-                <label>Număr de grile
-                  <select id="count-filter">
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="30">30</option>
-                    <option value="all">Toate disponibile</option>
-                  </select>
-                </label>
-              </div>
-
-              <div class="availability-box" id="availability-box" role="status" aria-live="polite">
-                <strong id="availability-title">Banca de grile nu este încă încărcată.</strong>
-                <span id="availability-text">Interfața și motorul de testare sunt pregătite. Următoarea etapă este introducerea întrebărilor.</span>
-              </div>
-
-              <button class="button button-primary button-wide" type="button" id="start-session" disabled>Pornește sesiunea</button>
-            </div>
-
-            <aside class="panel-card tips-card">
-              <p class="eyebrow">Reguli ale platformei</p>
-              <h3>Motor de grile cu răspuns unic</h3>
-              <ul class="check-list">
-                <li>exact un răspuns corect per întrebare;</li>
-                <li>validare automată a structurii grilelor;</li>
-                <li>amestecarea ordinii întrebărilor și opțiunilor poate fi activată ulterior;</li>
-                <li>progres separat pe materie și temă;</li>
-                <li>datele rămân în browser, fără cont și fără server.</li>
-              </ul>
-            </aside>
+              <div class="availability-box"><div><strong id="availability-title">Banca de grile nu este încă încărcată.</strong><span id="availability-text">Interfața și motorul de testare sunt pregătite.</span></div><button class="button button-primary" type="button" id="start-session" disabled>Începe</button></div>
+            </section>
           </div>
 
-          <div class="runner" id="quiz-runner" hidden aria-live="polite">
-            <div class="runner-header">
-              <button class="text-button" id="quit-session" type="button">← Ieșire</button>
-              <div class="runner-progress-wrap">
-                <div class="runner-meta"><span id="runner-position">Întrebarea 1 din 10</span><span id="runner-score">0 corecte</span></div>
-                <div class="runner-progress"><span id="runner-progress-bar" style="width:0%"></span></div>
-              </div>
-            </div>
+          <section class="panel-card quiz-card" id="quiz-runner" hidden>
+            <div class="quiz-topline"><button class="text-button back-button" type="button" id="quit-session">← Ieși</button><div class="quiz-position"><span id="runner-position">Întrebarea 1 din 10</span><strong id="runner-score">0 corecte</strong></div></div>
+            <div class="runner-progress"><span id="runner-progress-bar"></span></div>
+            <div class="question-meta"><span id="question-subject"></span><span id="question-topic"></span></div>
+            <h2 class="question-prompt" id="question-prompt"></h2>
+            <div class="answers-list" id="answers-list"></div>
+            <div class="question-feedback" id="question-feedback" hidden></div>
+            <div class="quiz-actions"><button class="button button-primary" type="button" id="next-question" disabled>Următoarea</button></div>
+          </section>
 
-            <article class="question-card">
-              <div class="question-tags"><span id="question-subject"></span><span id="question-topic"></span></div>
-              <h2 id="question-prompt"></h2>
-              <div class="answers" id="answers-list"></div>
-              <div class="feedback" id="question-feedback" hidden></div>
-              <div class="question-actions">
-                <button class="button button-primary" id="next-question" type="button" disabled>Următoarea</button>
-              </div>
-            </article>
-          </div>
+          <section class="panel-card result-card" id="quiz-results" hidden>
+            <div class="result-badge">Rezultat</div><strong class="result-score" id="results-percent">0%</strong><h2 id="results-title">0 din 0 răspunsuri corecte</h2><p id="results-summary" class="muted"></p>
+            <div class="button-row"><button class="button button-primary" type="button" id="repeat-session">Repetă configurația</button><button class="button button-secondary" type="button" id="back-to-training">Altă sesiune</button></div>
+          </section>
 
-          <div class="results-card" id="quiz-results" hidden>
-            <div class="results-score"><strong id="results-percent">0%</strong><span>răspunsuri corecte</span></div>
-            <div><p class="eyebrow">Sesiune finalizată</p><h2 id="results-title">Rezultat</h2><p id="results-summary"></p></div>
-            <div class="results-actions"><button class="button button-primary" type="button" id="retry-session">Repetă</button><button class="button button-secondary" type="button" id="back-to-setup">Alt test</button></div>
-          </div>
+          <section class="panel-card tips-card">
+            <p class="eyebrow">Principiu de lucru</p><h2>Folosește explicațiile, nu doar scorul</h2><p class="muted">În modul Învățare, după fiecare alegere vei vedea răspunsul corect, explicația și sursa introdusă în banca de grile.</p>
+          </section>
         </section>
 
         <section class="view" id="view-curriculum" data-view-panel="curriculum" hidden>
-          <div class="curriculum-intro panel-card">
-            <div><p class="eyebrow">Anexa la Decizia directorului școlii nr. 400028/SNTOBC/09.03.2026</p><h2>Tematică pentru concursul de admitere</h2><p>Conținutul de mai jos este transcris din documentele furnizate. Platforma de training va lega fiecare grilă de una dintre aceste teme.</p></div>
-            <span class="pill">2 materii · 21 teme</span>
-          </div>
+          <section class="panel-card curriculum-header">
+            <p class="eyebrow">Anexa la Decizia directorului școlii nr. 400028/SNTOBC/09.03.2026</p>
+            <h2>Tematică și bibliografie</h2>
+            <p class="muted">Structura de mai jos reproduce temele din documentele furnizate pentru pregătirea admiterii.</p>
+          </section>
 
           <div class="curriculum-grid">
-            <article class="curriculum-card" id="curriculum-romana">
-              <div class="curriculum-card-head"><div class="subject-symbol">R</div><div><p class="eyebrow">I.</p><h2>Limba română</h2><span>Elemente de construcție a comunicării</span></div></div>
+            <article class="panel-card subject-curriculum">
+              <div class="curriculum-title"><span class="subject-badge large">RO</span><div><p class="eyebrow">I.</p><h2>Limba română</h2><span>Elemente de construcție a comunicării</span></div></div>
               <details open><summary>Vocabularul <span>8 teme</span></summary><ol>
                 <li>Vocabularul limbii române. Vocabularul fundamental. Masa vocabularului.</li>
-                <li>Cuvântul. Forma și conținutul. Cuvântul de bază. Sensul cuvintelor în context. Sens propriu și sens figurat.</li>
-                <li>Mijloace interne de îmbogățire a vocabularului: derivarea, compunerea, schimbarea valorii gramaticale (conversiunea). Familia lexicală.</li>
+                <li>Cuvântul. Forma și conținutul. Cuvântul de bază. Sensul cuvintelor în context. Sensul propriu (de bază și secundar) și sensul figurat.</li>
+                <li>Mijloace interne de îmbogățire a vocabularului. Derivarea. Compunerea. Schimbarea valorii gramaticale (conversiunea). Familia lexicală.</li>
                 <li>Mijloace externe de îmbogățire a vocabularului. Împrumuturile. Neologismele.</li>
                 <li>Sinonimele. Antonimele. Omonimele. Paronimele.</li>
                 <li>Cuvintele polisemantice.</li>
                 <li>Unitățile frazeologice (locuțiuni, expresii).</li>
                 <li>Pleonasmul.</li>
               </ol></details>
-              <details><summary>Noțiuni de fonetică <span>2 teme</span></summary><ol>
-                <li>Silaba. Despărțirea cuvintelor în silabe la capăt de rând.</li>
-                <li>Folosirea corectă a accentului în limba română.</li>
-              </ol></details>
-              <details><summary>Morfosintaxa <span>2 teme</span></summary><ol>
-                <li>Părțile de vorbire flexibile. Clasificarea/felul (verb, substantiv, articol, pronume, numeral, adjectiv). Locuțiunile. Categorii morfologice (diateză, conjugare, mod, timp, persoană, gen, număr, caz, grad de comparație). Funcții sintactice.</li>
-                <li>Părțile de vorbire neflexibile. Clasificarea/felul (adverb, prepoziție, conjuncție, interjecție). Locuțiunile. Funcții sintactice (adverb, interjecție).</li>
-              </ol></details>
-              <details><summary>Noțiuni de sintaxă <span>3 teme</span></summary><ol>
-                <li>Cuvintele și construcțiile incidente. Punctuația lor.</li>
-                <li>Fraza. Propoziția principală și propoziția secundară/subordonată. Elementele de relație în frază. Propoziția regentă și propoziția subordonată. Elementul regent.</li>
-                <li>Propoziția și părțile de propoziție. Tipurile de propoziție.</li>
-              </ol></details>
-              <div class="bibliography"><h3>Bibliografie</h3><ul>
-                <li>Manualele școlare alternative de gimnaziu pentru clasele V–VIII, aprobate de M.E.C.T.S. și aflate în vigoare în anul școlar 2019–2020.</li>
-                <li>DOOM, Editura Univers Enciclopedic, București, 2022, ediția a III-a revizuită și adăugită.</li>
-                <li>Gabriela Pană Dindelegan, <em>Gramatica limbii române pentru gimnaziu, conform DOOM 3</em>, Editura Univers Enciclopedic Gold, 2022.</li>
-                <li><em>Dicționarul explicativ al limbii române</em>, Editura Univers Enciclopedic, București, 2012.</li>
-                <li>Florin Marcu, <em>Marele dicționar de neologisme</em>, Editura Saeculum, 2000.</li>
-                <li>Luiza și Mircea Seche, <em>Dicționar de sinonime</em>, Editura Litera Internațional, 2002.</li>
-                <li>Luiza și Mircea Seche, <em>Dicționar de antonime</em>, Editura Litera Internațional, 2002.</li>
-              </ul></div>
+              <details><summary>Noțiuni de fonetică <span>2 teme</span></summary><ol><li>Silaba. Despărțirea cuvintelor în silabe la capăt de rând.</li><li>Folosirea corectă a accentului în limba română.</li></ol></details>
+              <details><summary>Morfosintaxa <span>2 teme</span></summary><ol><li>Părțile de vorbire flexibile. Clasificarea/felul (verb, substantiv, articol, pronume, numeral, adjectiv). Locuțiunile. Categorii morfologice (diateză, conjugare, mod, timp, persoană, gen, număr, caz, grad de comparație). Funcții sintactice.</li><li>Părțile de vorbire neflexibile. Clasificarea/felul (adverb, prepoziție, conjuncție, interjecție). Locuțiunile. Funcții sintactice (adverb, interjecție).</li></ol></details>
+              <details><summary>Noțiuni de sintaxă <span>3 teme</span></summary><ol><li>Cuvintele și construcțiile incidente. Punctuația lor.</li><li>Fraza. Propoziția principală și propoziția secundară/subordonată. Elementele de relație în frază. Propoziția regentă și propoziția subordonată. Elementul regent.</li><li>Propoziția și părțile de propoziție. Tipurile de propoziție.</li></ol></details>
+              <div class="bibliography"><h3>Bibliografie</h3><ul><li>Manualele școlare alternative de gimnaziu pentru clasele V-VIII, aprobate de M.E.C.T.S. și aflate în vigoare în anul școlar 2019-2020.</li><li>DOOM, Editura Univers Enciclopedic, București, 2022 (ediția a III-a revizuită și adăugită).</li><li>Gramatica limbii române pentru gimnaziu, conform DOOM 3 — Gabriela Pană Dindelegan, Editura Univers Enciclopedic Gold, 2022.</li><li>Dicționarul explicativ al limbii române, Editura Univers Enciclopedic, București, 2012.</li><li>Marele dicționar de neologisme, Florin Marcu, Editura Saeculum, 2000.</li><li>Dicționar de sinonime, Luiza și Mircea Seche, Editura Litera Internațional, 2002.</li><li>Dicționar de antonime, Luiza și Mircea Seche, Editura Litera Internațional, 2002.</li></ul></div>
             </article>
 
-            <article class="curriculum-card" id="curriculum-istorie">
-              <div class="curriculum-card-head"><div class="subject-symbol">I</div><div><p class="eyebrow">II.</p><h2>Istoria românilor</h2><span>Tematică și bibliografie</span></div></div>
-              <details open><summary>Oamenii, societatea și lumea ideilor <span>1 temă</span></summary><ol>
-                <li>Constituțiile din România.</li>
-              </ol></details>
-              <details><summary>Statul și politica <span>3 teme</span></summary><ol>
-                <li>Autonomii locale și instituții centrale și în spațiul românesc (secolele IX–XVIII).</li>
-                <li>Statul român modern: de la proiect politic la realizarea României Mari (secolele XVIII–XX).</li>
-                <li>România postbelică. Stalinism, național-comunism și disidență anticomunistă.</li>
-              </ol></details>
-              <details><summary>Relațiile internaționale <span>2 teme</span></summary><ol>
-                <li>Spațiul românesc între diplomație și conflict în Evul Mediu și la începuturile modernității.</li>
-                <li>România și concertul european: de la „criza orientală” la marile alianțe ale secolului XX; Principatele Române/România ca miză a „problemei orientale”; România independentă; România de la obținerea independenței la marile alianțe ale secolului XX.</li>
-              </ol></details>
-              <div class="bibliography"><h3>Bibliografie</h3><ul>
-                <li>Manual pentru clasa a XII-a, coordonator Zoe Petre, Editura Corint, 2007.</li>
-                <li>Manual pentru clasa a XII-a, Felicia Adăscăliței, Liviu Lazăr, Editura Corvin, 2007.</li>
-              </ul></div>
+            <article class="panel-card subject-curriculum">
+              <div class="curriculum-title"><span class="subject-badge large">IS</span><div><p class="eyebrow">II.</p><h2>Istoria românilor</h2></div></div>
+              <details open><summary>Oamenii, societatea și lumea ideilor <span>1 temă</span></summary><ol><li>Constituțiile din România.</li></ol></details>
+              <details><summary>Statul și politica <span>3 teme</span></summary><ol><li>Autonomii locale și instituții centrale și în spațiul românesc (secolele IX–XVIII).</li><li>Statul român modern: de la proiect politic la realizarea României Mari (secolele XVIII–XX).</li><li>România postbelică. Stalinism, național-comunism și disidență anticomunistă.</li></ol></details>
+              <details><summary>Relațiile internaționale <span>2 teme</span></summary><ol><li>Spațiul românesc între diplomație și conflict în Evul Mediu și la începuturile modernității.</li><li>România și concertul european: de la „criza orientală” la marile alianțe ale secolului XX; Principatele Române/România ca miză a „problemei orientale”; România independentă; România de la obținerea independenței la marile alianțe ale secolului XX.</li></ol></details>
+              <div class="bibliography"><h3>Bibliografie</h3><ul><li>Manual pentru clasa a XII-a, coordonator Zoe Petre, Editura Corint, 2007.</li><li>Manual pentru clasa a XII-a, Felicia Adăscăliței, Liviu Lazăr, Editura Corvin, 2007.</li></ul></div>
             </article>
           </div>
         </section>
 
         <section class="view" id="view-progress" data-view-panel="progress" hidden>
-          <div class="stats-grid progress-stats">
-            <article class="stat-card"><span>Rată generală</span><strong id="progress-rate">0%</strong><small>Corecte / răspunsuri</small></article>
-            <article class="stat-card"><span>Română</span><strong id="progress-ro-rate">0%</strong><small id="progress-ro-count">0 răspunsuri</small></article>
-            <article class="stat-card"><span>Istorie</span><strong id="progress-hi-rate">0%</strong><small id="progress-hi-count">0 răspunsuri</small></article>
-            <article class="stat-card"><span>Greșeli active</span><strong id="progress-mistakes">0</strong><small>Întrebări de reluat</small></article>
-          </div>
-
-          <div class="progress-columns">
-            <section class="panel-card">
-              <div class="section-heading compact"><div><p class="eyebrow">Pe teme</p><h2>Performanță</h2></div></div>
-              <div id="topic-performance" class="empty-state"><strong>Nu există încă date.</strong><span>Rezolvă grile pentru a vedea performanța pe fiecare temă.</span></div>
-            </section>
-            <section class="panel-card">
-              <div class="section-heading compact"><div><p class="eyebrow">Istoric</p><h2>Sesiuni recente</h2></div></div>
-              <div id="recent-sessions" class="empty-state"><strong>Nicio sesiune finalizată.</strong><span>Ultimele rezultate vor apărea aici.</span></div>
-            </section>
-          </div>
+          <div class="stats-grid progress-stats"><article class="stat-card"><span>Rată generală</span><strong id="progress-rate">0%</strong><small>Corecte / răspunsuri</small></article><article class="stat-card"><span>Română</span><strong id="progress-ro-rate">0%</strong><small id="progress-ro-count">0 răspunsuri</small></article><article class="stat-card"><span>Istorie</span><strong id="progress-hi-rate">0%</strong><small id="progress-hi-count">0 răspunsuri</small></article><article class="stat-card"><span>Greșeli active</span><strong id="progress-mistakes">0</strong><small>Întrebări de reluat</small></article></div>
+          <div class="progress-columns"><section class="panel-card"><div class="section-heading compact"><div><p class="eyebrow">Pe teme</p><h2>Performanță</h2></div></div><div id="topic-performance" class="empty-state"><strong>Nu există încă date.</strong><span>Rezolvă grile pentru a vedea performanța pe fiecare temă.</span></div></section><section class="panel-card"><div class="section-heading compact"><div><p class="eyebrow">Istoric</p><h2>Sesiuni recente</h2></div></div><div id="recent-sessions" class="empty-state"><strong>Nicio sesiune finalizată.</strong><span>Ultimele rezultate vor apărea aici.</span></div></section></div>
         </section>
 
         <section class="view" id="view-settings" data-view-panel="settings" hidden>
           <div class="settings-grid">
-            <section class="panel-card">
-              <p class="eyebrow">Aspect</p><h2>Temă</h2><p class="muted">Tema aleasă este salvată pe acest dispozitiv.</p>
-              <div class="segmented" id="theme-options" role="radiogroup" aria-label="Temă vizuală">
-                <button type="button" data-theme-choice="system" role="radio">Sistem</button>
-                <button type="button" data-theme-choice="light" role="radio">Luminos</button>
-                <button type="button" data-theme-choice="dark" role="radio">Întunecat</button>
-              </div>
-            </section>
-            <section class="panel-card">
-              <p class="eyebrow">Date locale</p><h2>Backup progres</h2><p class="muted">Exportă sau importă progresul în format JSON. Fișierul nu conține date de cont, deoarece aplicația nu folosește autentificare.</p>
-              <div class="button-row"><button class="button button-secondary" type="button" id="export-progress">Exportă progresul</button><label class="button button-secondary file-button">Importă progresul<input type="file" id="import-progress" accept="application/json,.json" hidden></label></div>
-            </section>
-            <section class="panel-card danger-card">
-              <p class="eyebrow">Resetare</p><h2>Șterge progresul local</h2><p class="muted">Șterge răspunsurile și sesiunile salvate în acest browser. Tematica și banca de întrebări nu sunt afectate.</p>
-              <button class="button button-danger" type="button" id="reset-progress">Resetează progresul</button>
-            </section>
-            <section class="panel-card">
-              <p class="eyebrow">Despre</p><h2>Admitere SNPP Training</h2><p class="muted">Aplicație statică pentru GitHub Pages, fără backend și fără bază de date. Progresul este păstrat prin <code>localStorage</code>.</p>
-              <div class="version-row"><span>Versiune platformă</span><strong>1.0.0</strong></div>
-              <div class="version-row"><span>Schema progres</span><strong>v1</strong></div>
-            </section>
+            <section class="panel-card"><p class="eyebrow">Aspect</p><h2>Temă</h2><p class="muted">Tema aleasă este salvată pe acest dispozitiv.</p><div class="segmented" id="theme-options" role="radiogroup" aria-label="Temă vizuală"><button type="button" data-theme-choice="system" role="radio">Sistem</button><button type="button" data-theme-choice="light" role="radio">Luminos</button><button type="button" data-theme-choice="dark" role="radio">Întunecat</button></div></section>
+            <section class="panel-card"><p class="eyebrow">Date locale</p><h2>Backup progres</h2><p class="muted">Exportă sau importă progresul în format JSON. Fișierul nu conține date de cont, deoarece aplicația nu folosește autentificare.</p><div class="button-row"><button class="button button-secondary" type="button" id="export-progress">Exportă progresul</button><label class="button button-secondary file-button">Importă progresul<input type="file" id="import-progress" accept="application/json,.json" hidden></label></div></section>
+            <section class="panel-card danger-card"><p class="eyebrow">Resetare</p><h2>Șterge progresul local</h2><p class="muted">Șterge răspunsurile și sesiunile salvate în acest browser. Tematica și banca de întrebări nu sunt afectate.</p><button class="button button-danger" type="button" id="reset-progress">Resetează progresul</button></section>
+            <section class="panel-card"><p class="eyebrow">Despre</p><h2>Admitere SNPP Training</h2><p class="muted">Aplicație statică pentru GitHub Pages, fără backend și fără bază de date. Progresul este păstrat prin <code>localStorage</code>.</p><div class="version-row"><span>Versiune platformă</span><strong>1.0.0</strong></div><div class="version-row"><span>Schema progres</span><strong>v1</strong></div></section>
           </div>
         </section>
       </main>
 
-      <nav class="mobile-nav" aria-label="Navigare mobilă">
-        <button class="is-active" type="button" data-view="dashboard" aria-current="page"><span>⌂</span>Acasă</button>
-        <button type="button" data-view="training"><span>✓</span>Teste</button>
-        <button type="button" data-view="curriculum"><span>≡</span>Tematică</button>
-        <button type="button" data-view="progress"><span>↗</span>Progres</button>
-      </nav>
+      <nav class="mobile-nav" aria-label="Navigare mobilă"><button class="is-active" type="button" data-view="dashboard" aria-current="page"><span>⌂</span>Acasă</button><button type="button" data-view="training"><span>✓</span>Teste</button><button type="button" data-view="curriculum"><span>≡</span>Tematică</button><button type="button" data-view="progress"><span>↗</span>Progres</button></nav>
     </div>
   </div>
-
   <div class="toast-region" id="toast-region" aria-live="polite" aria-atomic="true"></div>
 
   <script src="js/questions.js"></script>
+  <script src="js/questions/2022-ro.js"></script>
+  <script src="js/questions/2022-history.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
