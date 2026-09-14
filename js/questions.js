@@ -27,8 +27,12 @@
     // Q16 foloseste o despartire/grafie istorica ce nu corespunde normei DOOM3 pentru sandvici/sendvis.
     '2021-ro-016',
 
-    // 2020: item de romana dependent de cuvantul subliniat in original.
+    // 2020: itemi de romana care nu pot fi folositi sigur in forma curenta.
+    // Q32 depinde de cuvantul subliniat in original, marcaj pierdut la transcriere.
     '2020-ro-032',
+    // Q43 are cheia istorica bazata pe o despartire care nu mai produce o varianta integral corecta
+    // conform regulilor DOOM3: vâr-stă si sculp-tă trebuie respectate simultan.
+    '2020-ro-043',
 
     // 2020 Istorie: probleme materiale ale subiectului oficial.
     // Q1 ofera 1900/2000/1800/1990, desi Palatul Parlamentului a inceput sa fie construit in anii 1980.
