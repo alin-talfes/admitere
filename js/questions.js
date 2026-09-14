@@ -20,6 +20,13 @@
     '2022-ro-031',
     '2022-ro-033',
 
+    // 2021: incompatibilitati cu norma curenta (DOOM3).
+    // Q10 are acum cel putin doua variante admisibile: DOOM3 accepta acordul la plural
+    // in constructii de tipul „Majoritatea studentilor vor...”.
+    '2021-ro-010',
+    // Q16 foloseste o despartire/grafie istorica ce nu corespunde normei DOOM3 pentru sandvici/sendvis.
+    '2021-ro-016',
+
     // 2020: item de romana dependent de cuvantul subliniat in original.
     '2020-ro-032',
 
