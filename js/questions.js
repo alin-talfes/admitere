@@ -37,8 +37,15 @@
     '2019-ro-048',
     '2019-ro-065',
 
-    // 2018: itemul cere cazurile pronumelor subliniate; marcajele nu sunt pastrate in text simplu.
-    '2018-ro-063'
+    // 2018: transcriere incompleta/corupta sau marcaje grafice pierdute.
+    // Q40 are un prompt intern contradictoriu in transcrierea curenta.
+    '2018-ro-040',
+    // Q63 cere cazurile pronumelor subliniate; marcajele nu sunt pastrate in text simplu.
+    '2018-ro-063',
+
+    // 2017: variantele Q52 se deosebesc prin numarul de "i" in original,
+    // dar transcrierea curenta le afiseaza identic si itemul nu poate fi rezolvat corect.
+    '2017-ro-052'
   ]);
 
   window.QUESTION_AUDIT = {
