@@ -17,7 +17,12 @@ Banca activă încarcă în prezent:
 
 După aplicarea carantinei, validatorul automat raportează **233 de itemi activi**.
 
-În staging există acum și `js/questions/2016-history.js`, cu **25 de itemi de Istorie 2016 selectați conservator**: numai întrebări cu enunț și variante complete și cu răspuns istoric verificabil independent, fără ambiguitate. Lotul 2016 nu este încă încărcat de `index.html`; activarea rămâne blocată până la confruntarea directă cu grila oficială finală și verificarea documentelor de contestații. Celelalte fișiere din `js/questions/` rămân de asemenea staging până la închiderea auditului individual. Pentru 2023–2026 nu se activează întrebări dacă documentele oficiale relevante nu pot fi inspectate suficient pentru verificarea cheii și a eventualelor erate.
+În staging există acum și:
+
+- `js/questions/2015-history.js` — **21 de itemi de Istorie 2015 selectați conservator**;
+- `js/questions/2016-history.js` — **25 de itemi de Istorie 2016 selectați conservator**.
+
+Pentru aceste loturi au fost păstrate numai întrebările cu enunț și variante complete și cu răspuns istoric verificabil independent, fără ambiguitate. Loturile 2015 și 2016 nu sunt încă încărcate de `index.html`; activarea rămâne blocată până la confruntarea directă cu grilele oficiale finale și verificarea eventualelor erate/efecte ale contestațiilor. Celelalte fișiere din `js/questions/` rămân de asemenea staging până la închiderea auditului individual. Pentru anii în care documentele oficiale relevante nu pot fi inspectate suficient pentru verificarea cheii și a eventualelor erate, nu se activează întrebări.
 
 Auditul pe ani, eratele identificate, itemii anulați și motivele de carantinare sunt documentate în [`audit/README.md`](audit/README.md) și în fișierele `audit/YYYY.md`.
 
@@ -67,7 +72,9 @@ Un item carantinat poate rămâne în fișierul istoric pentru trasabilitate, da
 
 Faptul că un răspuns apare într-un barem istoric nu este suficient pentru activare. Pentru publicare se verifică: sursa oficială, fidelitatea enunțului și variantelor, cheia finală, eratele/contestațiile, eventualele marcaje grafice, corectitudinea materială și compatibilitatea cu tematica și bibliografia concursului țintă.
 
-Golurile din numerotare nu se completează prin deducție sau din surse neoficiale.
+Pentru loturile de staging poate fi folosită o transcriere secundară numai pentru recuperarea enunțului și a variantelor, niciodată ca autoritate pentru cheia de răspuns. Cheia este păstrată numai dacă răspunsul poate fi verificat independent fără ambiguitate; activarea necesită ulterior confruntarea cu documentul oficial final.
+
+Golurile din numerotare nu se completează prin presupunere.
 
 ## QA automat
 
@@ -79,7 +86,7 @@ node tools/validate-question-bank.mjs
 
 Validatorul încarcă atât toate modulele de staging, cât și modulele active declarate în `index.html`. Verifică sintaxa, ID-urile, disciplinele, temele, cele patru variante, `correctIndex`, sursa, explicația, modulele active, aplicarea carantinei și contractele DOM/CSS ale interfeței.
 
-Workflow-ul `.github/workflows/question-bank-qa.yml` execută aceeași verificare automat la fiecare push pe `main` și la pull request. După introducerea lotului sigur de Istorie 2016, validatorul raportează **14 module verificate, 679 itemi structurali valizi în staging după carantină, 6 module active și 233 itemi activi**. Contractele DOM și CSS trec verificarea.
+Workflow-ul `.github/workflows/question-bank-qa.yml` execută aceeași verificare automat la fiecare push pe `main` și la pull request. După introducerea loturilor sigure de Istorie 2015 și 2016, validatorul raportează **15 module verificate, 700 itemi structurali valizi în staging după carantină, 6 module active și 233 itemi activi**. Contractele DOM și CSS trec verificarea.
 
 ## GitHub Pages
 
