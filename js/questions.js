@@ -56,6 +56,12 @@
     // Q27 mentioneaza 18.180.311 ha; cifra documentata pentru reforma agrara este 1.810.311 ha.
     '2020-ist-027',
 
+    // 2019 Istorie: eroare materiala in subiectul/baremul oficial.
+    // Q11 marcheaza 13 septembrie si formuleaza bilateral „Romania si URSS”, in timp ce sursele
+    // oficiale MApN/ISPAIM dateaza Conventia de Armistitiu la 12 septembrie 1944 (noaptea 12/13)
+    // si o descriu ca fiind incheiata intre Romania si statele reprezentand Natiunile Unite.
+    '2019-ist-011',
+
     // 2019: itemi care cer analiza unor cuvinte marcate/subliniate in original.
     '2019-ro-015',
     '2019-ro-025',
