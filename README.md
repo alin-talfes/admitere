@@ -8,12 +8,13 @@ Aplicația conține interfața, tematica 2026, motorul de testare, progres local
 
 Banca activă încarcă în prezent:
 
+- Istoria românilor 2013 — 57 itemi activi din 60; Q11, Q24 și Q35 sunt carantinați pentru erori materiale ale subiectului oficial;
 - Istoria românilor 2020 — 38 itemi activi din 40; Q1 și Q27 sunt carantinați pentru erori materiale ale subiectului oficial;
 - Istoria românilor 2021 — 30/30 itemi activi;
 - Limba română 2022 — numai itemii importați și necarantinați;
 - Istoria românilor 2022 — 30/30 itemi încărcați.
 
-După aplicarea carantinei, validatorul automat raportează **137 de itemi activi**. Celelalte fișiere din `js/questions/` rămân staging până la închiderea auditului individual. Pentru 2023–2026 nu se importă întrebări dacă documentele oficiale relevante nu pot fi inspectate integral.
+După aplicarea carantinei, validatorul automat raportează **194 de itemi activi**. Celelalte fișiere din `js/questions/` rămân staging până la închiderea auditului individual. Pentru 2023–2026 nu se importă întrebări dacă documentele oficiale relevante nu pot fi inspectate integral.
 
 Auditul pe ani, eratele identificate, itemii anulați și motivele de carantinare sunt documentate în [`audit/README.md`](audit/README.md) și în fișierele `audit/YYYY.md`.
 
@@ -73,9 +74,9 @@ Banca poate fi verificată local cu:
 node tools/validate-question-bank.mjs
 ```
 
-Validatorul încarcă atât toate modulele de staging, cât și modulele active declarate în `index.html`. Verifică sintaxa, ID-urile, disciplinele, temele, cele patru variante, `correctIndex`, sursa, explicația, modulele active și aplicarea carantinei.
+Validatorul încarcă atât toate modulele de staging, cât și modulele active declarate în `index.html`. Verifică sintaxa, ID-urile, disciplinele, temele, cele patru variante, `correctIndex`, sursa, explicația, modulele active, aplicarea carantinei și contractul DOM minimal dintre `index.html` și `js/app.js`.
 
-Workflow-ul `.github/workflows/question-bank-qa.yml` execută aceeași verificare automat la fiecare push pe `main` și la pull request. Prima rulare după introducerea validatorului a trecut cu succes: 13 module, 660 itemi structurali valizi în staging după carantină și 137 itemi activi.
+Workflow-ul `.github/workflows/question-bank-qa.yml` execută aceeași verificare automat la fiecare push pe `main` și la pull request. Rularea de după activarea Istoriei 2013 a trecut cu succes: **13 module verificate, 659 itemi structurali valizi în staging după carantină, 5 module active și 194 itemi activi**.
 
 ## GitHub Pages
 
