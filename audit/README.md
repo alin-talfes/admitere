@@ -2,7 +2,9 @@
 
 Ultima actualizare: 15.09.2026
 
-Acest director documentează separat verificarea conținutului istoric față de simpla funcționare tehnică a aplicației.
+Acest director documentează separat verificarea conținutului față de simpla funcționare tehnică a aplicației.
+
+Auditul semantic transversal realizat la 15.09.2026 este documentat în [`semantic-2026-09-15.md`](semantic-2026-09-15.md). Acesta verifică în special compatibilitatea grilelor istorice de Limba română cu DOOM3 și cu gramatica actuală din bibliografia 2026 și face un control material suplimentar al itemilor de Istorie.
 
 ## Reguli de validare
 
@@ -23,26 +25,26 @@ Baremul istoric dovedește ce a fost punctat la examenul din anul respectiv. Nu 
 
 | An | Limba română | Istoria românilor | Activ în `index.html` |
 |---|---|---|---|
-| 2026 | sursa oficială a sesiunii identificată; documentele individuale ANP nu au putut fi inspectate integral | aceeași situație | nu |
+| 2026 | sursa oficială a sesiunii identificată; documentele individuale ANP nu au fost încă inspectate integral | aceeași situație | nu |
 | 2025 | neimportat; pagina oficială a sesiunii identificată | neimportat | nu |
 | 2024 | neimportat; pagina oficială a sesiunii identificată | neimportat | nu |
 | 2023 | barem oficial identificat pe ANP, dar PDF-ul nu a putut fi inspectat integral | barem oficial identificat pe ANP, dar PDF-ul nu a putut fi inspectat integral | nu |
-| 2022 | parțial validat; erată Q4 aplicată; Q31/Q33 excluse | cheie verificată | **da** |
+| 2022 | parțial validat; erată Q4 aplicată; Q31/Q33/Q42 carantinate | cheie verificată; 30/30 activi | **da** |
 | 2021 | **45/45 fidelitate verificată; 39 activi, Q10/Q16/Q19/Q29/Q36/Q39 carantinați** | **30/30 verificați și activi** | **da, ambele discipline** |
-| 2020 | staging; Q32/Q43/Q48 excluse după auditul de formatare/normă 2026 | **40/40 fidelitate verificată; 38 activi, Q1/Q27 carantinați** | **da, doar Istorie** |
-| 2019 | staging; Q35 anulat oficial; 11 itemi carantinați, inclusiv Q39 după verificarea accentului DOOM 3 | cheia 1–60 verificată; text + variante verificate pentru 13–60; **Q11 carantinat pentru eroare materială privind Convenția de Armistițiu**; 1–12 încă de confruntat vizual | nu |
-| 2018 | staging; Q40/Q57/Q63 excluse, Q8 neimportat | cheie verificată integral; fidelitate integrală încă neînchisă | nu |
-| 2017 | staging; Q23/Q52 excluse, Q3/Q4/Q6 neimportate | erata Q9 aplicată; audit integral în curs | nu |
-| 2016 | neimportat; erata oficială verificată: modifică doar calculul punctajului, nu cheia | sursă oficială identificată; PDF-ul oficial are 6 pagini, dar redarea nu este stabilă | nu |
-| 2015 | neimportat; ambele grile oficiale și contestațiile sunt listate în arhivă | neimportat | nu |
-| 2014 | neimportat; există și o soluționare ulterioară individuală publicată în 2017 | erată oficială a grilei identificată, conținutul exact încă nerecuperat | nu |
+| 2020 | staging; audit semantic extins: Q8/Q9/Q15/Q32/Q34/Q43/Q45/Q48 carantinate | **40/40 fidelitate verificată; 38 activi, Q1/Q27 carantinați** | **da, doar Istorie** |
+| 2019 | staging; Q35 anulat oficial; Q23/Q66 adăugați la carantina semantică, pe lângă itemii deja blocați | cheia 1–60 verificată; text + variante 13–60; Q11 și Q60 carantinate; 1–12 încă de confruntat vizual | nu |
+| 2018 | staging; Q8 neimportat; Q14/Q35/Q40/Q45/Q51/Q53/Q57/Q63/Q67 carantinate | cheie verificată integral; fidelitate integrală încă neînchisă | nu |
+| 2017 | staging; Q3/Q4/Q6 neimportate; Q23/Q41/Q45/Q52/Q69 carantinate | erata Q9 aplicată; audit integral în curs | nu |
+| 2016 | neimportat la Română; erata oficială verificată: modifică doar calculul punctajului, nu cheia | lot staging; sursă oficială identificată; audit de fidelitate neînchis | nu |
+| 2015 | neimportat la Română; grilele oficiale și contestațiile sunt listate în arhivă | lot staging conservator; audit de fidelitate neînchis | nu |
+| 2014 | neimportat; există și o soluționare ulterioară individuală publicată în 2017 | erată oficială identificată, conținutul exact încă nerecuperat | nu |
 | 2013 | PDF oficial identificat; neimportat | **60/60 recuperați; 57 activi, Q11/Q24/Q35 carantinați** | **da, doar Istorie** |
-| 2012 | URL oficial al PDF-ului recuperat; serverul nu l-a redat stabil | URL oficial al PDF-ului recuperat; serverul nu l-a redat stabil | nu |
-| 2011 | PDF oficial identificat; redarea paginilor Română a eșuat | grila 1–60 și itemii 1–44 inspectați; 45–60 încă nerecuperați integral | nu |
+| 2012 | URL oficial recuperat; Româna neimportată | 24 itemi staging conservator; Q46 carantinat semantic | nu |
+| 2011 | PDF oficial identificat; redarea paginilor Română a eșuat | itemii 1–44 recuperați conservator; 45–60 încă nerecuperați integral | nu |
 
-Detaliile și justificările sunt în fișierele `YYYY.md`.
+Detaliile istorice sunt în fișierele `YYYY.md`, iar motivele noilor excluderi transversale sunt centralizate în `semantic-2026-09-15.md`.
 
-## Banca activă
+## Banca activă după auditul semantic din 15.09.2026
 
 Loaderul din `index.html` încarcă, în această ordine:
 
@@ -53,11 +55,19 @@ Loaderul din `index.html` încarcă, în această ordine:
 - `2022-ro.js`;
 - `2022-history.js`.
 
-După aplicarea carantinei, banca activă conține **233 de itemi**. Dintre modulele active sunt opriți automat 13 itemi:
+Rularea QA pentru commitul de audit semantic a confirmat:
 
-`2013-ist-011`, `2013-ist-024`, `2013-ist-035`, `2020-ist-001`, `2020-ist-027`, `2021-ro-010`, `2021-ro-016`, `2021-ro-019`, `2021-ro-029`, `2021-ro-036`, `2021-ro-039`, `2022-ro-031`, `2022-ro-033`.
+- **17 module totale verificate**;
+- **6 module active**;
+- **745 itemi structurali valizi în staging după carantină**;
+- **232 itemi activi după carantină**;
+- **14 itemi carantinați întâlniți în modulele active**.
 
-`2019-ist-011` este, de asemenea, în carantina globală, dar nu afectează numărul de 233 deoarece modulul `2019-history.js` nu este încă activ.
+Carantina activă este:
+
+`2013-ist-011`, `2013-ist-024`, `2013-ist-035`, `2020-ist-001`, `2020-ist-027`, `2021-ro-010`, `2021-ro-016`, `2021-ro-019`, `2021-ro-029`, `2021-ro-036`, `2021-ro-039`, `2022-ro-031`, `2022-ro-033`, `2022-ro-042`.
+
+Față de banca activă anterioară de 233 de itemi, auditul semantic a eliminat suplimentar numai `2022-ro-042`. Celelalte excluderi noi se află în module staging și previn activarea lor prematură.
 
 ## QA automat
 
@@ -73,9 +83,10 @@ La fiecare push pe `main` și la fiecare pull request sunt verificate automat:
 - sursa și explicația;
 - existența tuturor modulelor declarate active în `index.html`;
 - faptul că itemii din carantină nu ajung în banca activă;
-- contractul DOM minimal dintre `index.html` și `js/app.js`.
+- contractul DOM dintre `index.html` și `js/app.js`;
+- contractul CSS/tema pentru clasele critice ale interfeței.
 
-Rularea de după carantinarea `2019-ist-011` a trecut cu succes: **13 module verificate, 654 itemi structurali valizi în staging după carantină, 6 module active și 233 itemi activi după carantină**. Contractul DOM a trecut de asemenea verificarea automată.
+Rularea din 15.09.2026 pentru commitul `b04d3a766852facb1b5a459bb438bf5e6ed02472` a trecut cu succes. Au trecut și contractele DOM (59 ID-uri, 52 selectori, 13 listenere directe, 13 clase dinamice) și CSS (42 clase critice, 95 clase CSS detectate).
 
 ## Carantină tehnică
 
@@ -83,13 +94,14 @@ Rularea de după carantinarea `2019-ist-011` a trecut cu succes: **13 module ver
 
 Registrul validează structura fiecărei întrebări înainte de înregistrare: format ID, disciplină, temă, enunț, exact patru variante text nevid, `correctIndex` între 0 și 3 și unicitatea ID-ului. O structură invalidă oprește încărcarea în loc să introducă silențios date corupte.
 
-Carantina nu este rezervată numai eratelor oficiale. Ea se aplică și când:
+Carantina se aplică atunci când:
 
 - un marcaj grafic esențial s-a pierdut la transcriere;
 - staging-ul conține un text corupt sau ambiguu;
 - baremul istoric intră în conflict cu norma actuală relevantă pentru 2026;
 - subiectul oficial conține o eroare materială demonstrabilă;
-- există două răspunsuri plauzibil/corect acceptabile și nu putem restabili fără echivoc forma originală.
+- există două răspunsuri corecte/plauzibile sau niciun răspuns integral corect;
+- analiza gramaticală cerută folosește o categorie abandonată/reclasificată de bibliografia actuală și ar preda candidatului o regulă depășită.
 
 ## Politica pentru itemii lipsă
 
