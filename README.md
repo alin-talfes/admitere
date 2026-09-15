@@ -77,7 +77,7 @@ node tools/validate-question-bank.mjs
 
 Validatorul încarcă atât toate modulele de staging, cât și modulele active declarate în `index.html`. Verifică sintaxa, ID-urile, disciplinele, temele, cele patru variante, `correctIndex`, sursa, explicația, modulele active, aplicarea carantinei și contractul DOM minimal dintre `index.html` și `js/app.js`.
 
-Workflow-ul `.github/workflows/question-bank-qa.yml` execută aceeași verificare automat la fiecare push pe `main` și la pull request. Rularea de după activarea lotului de Limba română 2021 a trecut cu succes: **13 module verificate, 655 itemi structurali valizi în staging după carantină, 6 module active și 233 itemi activi**. Contractul DOM a trecut verificarea.
+Workflow-ul `.github/workflows/question-bank-qa.yml` execută aceeași verificare automat la fiecare push pe `main` și la pull request. Ultima rulare după carantinarea itemului istoric defectuos `2019-ist-011` a trecut cu succes: **13 module verificate, 654 itemi structurali valizi în staging după carantină, 6 module active și 233 itemi activi**. Contractul DOM a trecut verificarea.
 
 ## GitHub Pages
 
