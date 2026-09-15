@@ -30,7 +30,7 @@ Baremul istoric dovedește ce a fost punctat la examenul din anul respectiv. Nu 
 | 2022 | parțial validat; erată Q4 aplicată; Q31/Q33 excluse | cheie verificată | **da** |
 | 2021 | **45/45 fidelitate verificată; 39 activi, Q10/Q16/Q19/Q29/Q36/Q39 carantinați** | **30/30 verificați și activi** | **da, ambele discipline** |
 | 2020 | staging; Q32/Q43/Q48 excluse după auditul de formatare/normă 2026 | **40/40 fidelitate verificată; 38 activi, Q1/Q27 carantinați** | **da, doar Istorie** |
-| 2019 | staging; Q35 anulat oficial; 11 itemi carantinați, inclusiv Q39 după verificarea accentului DOOM 3 | cheia 1–60 verificată; text + variante verificate pentru 13–60; 1–12 încă de confruntat vizual | nu |
+| 2019 | staging; Q35 anulat oficial; 11 itemi carantinați, inclusiv Q39 după verificarea accentului DOOM 3 | cheia 1–60 verificată; text + variante verificate pentru 13–60; **Q11 carantinat pentru eroare materială privind Convenția de Armistițiu**; 1–12 încă de confruntat vizual | nu |
 | 2018 | staging; Q40/Q57/Q63 excluse, Q8 neimportat | cheie verificată integral; fidelitate integrală încă neînchisă | nu |
 | 2017 | staging; Q23/Q52 excluse, Q3/Q4/Q6 neimportate | erata Q9 aplicată; audit integral în curs | nu |
 | 2016 | neimportat; erata oficială verificată: modifică doar calculul punctajului, nu cheia | sursă oficială identificată; PDF-ul oficial are 6 pagini, dar redarea nu este stabilă | nu |
@@ -56,6 +56,8 @@ Loaderul din `index.html` încarcă, în această ordine:
 După aplicarea carantinei, banca activă conține **233 de itemi**. Dintre modulele active sunt opriți automat 13 itemi:
 
 `2013-ist-011`, `2013-ist-024`, `2013-ist-035`, `2020-ist-001`, `2020-ist-027`, `2021-ro-010`, `2021-ro-016`, `2021-ro-019`, `2021-ro-029`, `2021-ro-036`, `2021-ro-039`, `2022-ro-031`, `2022-ro-033`.
+
+`2019-ist-011` este, de asemenea, în carantina globală, dar nu afectează numărul de 233 deoarece modulul `2019-history.js` nu este încă activ.
 
 ## QA automat
 
