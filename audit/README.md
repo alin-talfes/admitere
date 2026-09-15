@@ -28,7 +28,7 @@ Baremul istoric dovedește ce a fost punctat la examenul din anul respectiv. Nu 
 | 2024 | neimportat; pagina oficială a sesiunii identificată | neimportat | nu |
 | 2023 | barem oficial identificat pe ANP, dar PDF-ul nu a putut fi inspectat integral | barem oficial identificat pe ANP, dar PDF-ul nu a putut fi inspectat integral | nu |
 | 2022 | parțial validat; erată Q4 aplicată; Q31/Q33 excluse | cheie verificată | **da** |
-| 2021 | text + variante + cheie verificate; Q10/Q16 excluse după filtrul DOOM 3 | **30/30 verificați și activi** | **da, doar Istorie** |
+| 2021 | **45/45 fidelitate verificată; 39 activi, Q10/Q16/Q19/Q29/Q36/Q39 carantinați** | **30/30 verificați și activi** | **da, ambele discipline** |
 | 2020 | staging; Q32/Q43/Q48 excluse după auditul de formatare/normă 2026 | **40/40 fidelitate verificată; 38 activi, Q1/Q27 carantinați** | **da, doar Istorie** |
 | 2019 | staging; Q35 anulat oficial; 11 itemi carantinați, inclusiv Q39 după verificarea accentului DOOM 3 | cheia 1–60 verificată; text + variante verificate pentru 13–60; 1–12 încă de confruntat vizual | nu |
 | 2018 | staging; Q40/Q57/Q63 excluse, Q8 neimportat | cheie verificată integral; fidelitate integrală încă neînchisă | nu |
@@ -48,11 +48,14 @@ Loaderul din `index.html` încarcă, în această ordine:
 
 - `2013-history.js`;
 - `2020-history.js`;
+- `2021-ro.js`;
 - `2021-history.js`;
 - `2022-ro.js`;
 - `2022-history.js`.
 
-După aplicarea carantinei, banca activă conține **194 de itemi**. Dintre modulele active sunt opriți automat șapte itemi: `2013-ist-011`, `2013-ist-024`, `2013-ist-035`, `2020-ist-001`, `2020-ist-027`, `2022-ro-031`, `2022-ro-033`.
+După aplicarea carantinei, banca activă conține **233 de itemi**. Dintre modulele active sunt opriți automat 13 itemi:
+
+`2013-ist-011`, `2013-ist-024`, `2013-ist-035`, `2020-ist-001`, `2020-ist-027`, `2021-ro-010`, `2021-ro-016`, `2021-ro-019`, `2021-ro-029`, `2021-ro-036`, `2021-ro-039`, `2022-ro-031`, `2022-ro-033`.
 
 ## QA automat
 
@@ -70,7 +73,7 @@ La fiecare push pe `main` și la fiecare pull request sunt verificate automat:
 - faptul că itemii din carantină nu ajung în banca activă;
 - contractul DOM minimal dintre `index.html` și `js/app.js`.
 
-Rularea de după activarea lotului 2013 a trecut cu succes: **13 module verificate, 659 itemi structurali valizi în staging după carantină, 5 module active și 194 itemi activi după carantină**.
+Rularea de după activarea lotului de Limba română 2021 a trecut cu succes: **13 module verificate, 655 itemi structurali valizi în staging după carantină, 6 module active și 233 itemi activi după carantină**. Contractul DOM a trecut de asemenea verificarea automată.
 
 ## Carantină tehnică
 
