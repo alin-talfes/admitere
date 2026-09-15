@@ -103,6 +103,7 @@ function loadModules(moduleFiles, label) {
   sandbox.window.QUESTION_BANK.forEach((question, index) => validateQuestion(question, label, index, seenIds));
 
   const skipped = sandbox.window.QUESTION_AUDIT?.skipped ?? [];
+  const declaredQuarantine = [...(sandbox.window.QUESTION_AUDIT?.quarantined ?? [])];
   const activeIds = new Set(sandbox.window.QUESTION_BANK.map(question => question.id));
   for (const id of skipped) {
     if (activeIds.has(id)) fail(`${id}: item carantinat prezent în banca activă.`);
@@ -111,7 +112,8 @@ function loadModules(moduleFiles, label) {
   return {
     registered: sandbox.window.QUESTION_BANK.length,
     quarantinedLoaded: skipped.length,
-    skipped: [...skipped]
+    skipped: [...skipped],
+    declaredQuarantine
   };
 }
 
@@ -270,6 +272,13 @@ function main() {
   const activeModules = getActiveModuleFiles();
   const staging = loadModules(allModules, 'staging');
   const active = loadModules(activeModules, 'activ');
+
+  const encounteredQuarantine = new Set(staging.skipped);
+  const orphanedQuarantine = staging.declaredQuarantine.filter(id => !encounteredQuarantine.has(id));
+  if (orphanedQuarantine.length) {
+    fail(`Carantina conține ID-uri care nu există în modulele staging: ${orphanedQuarantine.join(', ')}.`);
+  }
+
   const dom = validateDomContract();
   const css = validateCssContract();
 
@@ -277,9 +286,11 @@ function main() {
   console.log(`Module totale verificate: ${allModules.length}`);
   console.log(`Module active: ${activeModules.length}`);
   console.log(`Itemi structurali valizi în staging după carantină: ${staging.registered}`);
+  console.log(`Itemi declarați în carantină: ${staging.declaredQuarantine.length}`);
   console.log(`Itemi activi după carantină: ${active.registered}`);
   console.log(`Itemi carantinați întâlniți în modulele active: ${active.quarantinedLoaded}`);
   if (active.skipped.length) console.log(`Carantină activă: ${active.skipped.join(', ')}`);
+  console.log(`Contract carantină: OK (${staging.declaredQuarantine.length} ID-uri declarate, toate prezente în staging).`);
   console.log(`Contract DOM: OK (${dom.htmlIds} ID-uri, ${dom.singleSelectors} selectori $(), ${dom.directListeners} listenere directe, ${dom.dynamicClasses} clase dinamice).`);
   console.log(`Contract CSS: OK (${css.criticalClasses} clase critice acoperite, ${css.cssClasses} clase CSS detectate).`);
 }
