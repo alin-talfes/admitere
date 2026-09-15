@@ -139,12 +139,20 @@ function collectHtmlClasses(html) {
 
 function collectDynamicClasses(app) {
   const classes = new Set();
+
   for (const match of app.matchAll(/\.className\s*=\s*['"]([^'"]+)['"]/g)) {
     match[1].split(/\s+/).filter(Boolean).forEach(className => classes.add(className));
   }
+
+  for (const match of app.matchAll(/\.className\s*=\s*`([^`]+)`/g)) {
+    const staticText = match[1].replace(/\$\{[^}]*\}/g, ' ');
+    staticText.split(/\s+/).filter(Boolean).forEach(className => classes.add(className));
+  }
+
   for (const match of app.matchAll(/\.classList\.add\(\s*['"]([^'"]+)['"]\s*\)/g)) {
     classes.add(match[1]);
   }
+
   return classes;
 }
 
