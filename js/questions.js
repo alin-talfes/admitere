@@ -113,7 +113,7 @@
     // trateaza apozitia separat de atribut.
     '2019-ro-066',
 
-    // 2018: incompatibilitati de norma/gramatica si transcrieri necertificate.
+    // 2018: incompatibilitati de norma/grammatica si transcrieri necertificate.
     // Q14 si Q35 trateaza infinitivul/gerunziul ca „moduri nepersonale”; bibliografia
     // actuala foloseste categoria formelor verbale nepersonale/nonfinite.
     '2018-ro-014',
@@ -148,6 +148,12 @@
     // Q69 foloseste „completiva indirecta” pentru subordonata ceruta de „a se gandi”;
     // gramatica actuala foloseste complement/completiva prepozitionala.
     '2017-ro-069',
+
+    // 2015 Istorie: raspunsul privind minimum 12 divizii este corect, dar enuntul
+    // descrie Convenția de Armistitiu ca fiind intre Romania si URSS. ISPAIM/MApN o
+    // identifica drept conventie intre Romania si statele reprezentand Natiunile Unite,
+    // semnata din insarcinarea guvernelor URSS, SUA si Regatului Unit.
+    '2015-ist-041',
 
     // 2013 Istorie: erori materiale ale subiectului oficial.
     // Q11 da 625.000 drept pierderi totale ale armatei romane in razboi; datele MApN indica
