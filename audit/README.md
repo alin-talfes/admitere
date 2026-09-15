@@ -1,6 +1,6 @@
 # Registru central audit grile
 
-Ultima actualizare: 14.09.2026
+Ultima actualizare: 15.09.2026
 
 Acest director documentează separat verificarea conținutului istoric față de simpla funcționare tehnică a aplicației.
 
@@ -36,7 +36,7 @@ Baremul istoric dovedește ce a fost punctat la examenul din anul respectiv. Nu 
 | 2016 | neimportat; erata oficială verificată: modifică doar calculul punctajului, nu cheia | sursă oficială identificată; PDF-ul oficial are 6 pagini, dar redarea nu este stabilă | nu |
 | 2015 | neimportat; ambele grile oficiale și contestațiile sunt listate în arhivă | neimportat | nu |
 | 2014 | neimportat; există și o soluționare ulterioară individuală publicată în 2017 | erată oficială a grilei identificată, conținutul exact încă nerecuperat | nu |
-| 2013 | PDF oficial identificat; neimportat | **60/60 itemi recuperați în staging; Q24/Q35 carantinate pentru erori materiale** | nu |
+| 2013 | PDF oficial identificat; neimportat | **60/60 recuperați; 57 activi, Q11/Q24/Q35 carantinați** | **da, doar Istorie** |
 | 2012 | URL oficial al PDF-ului recuperat; serverul nu l-a redat stabil | URL oficial al PDF-ului recuperat; serverul nu l-a redat stabil | nu |
 | 2011 | PDF oficial identificat; redarea paginilor Română a eșuat | grila 1–60 și itemii 1–44 inspectați; 45–60 încă nerecuperați integral | nu |
 
@@ -46,12 +46,13 @@ Detaliile și justificările sunt în fișierele `YYYY.md`.
 
 Loaderul din `index.html` încarcă, în această ordine:
 
+- `2013-history.js`;
 - `2020-history.js`;
 - `2021-history.js`;
 - `2022-ro.js`;
 - `2022-history.js`.
 
-După aplicarea carantinei, banca activă conține **137 de itemi**. Dintre modulele active sunt opriți automat patru itemi: `2020-ist-001`, `2020-ist-027`, `2022-ro-031`, `2022-ro-033`.
+După aplicarea carantinei, banca activă conține **194 de itemi**. Dintre modulele active sunt opriți automat șapte itemi: `2013-ist-011`, `2013-ist-024`, `2013-ist-035`, `2020-ist-001`, `2020-ist-027`, `2022-ro-031`, `2022-ro-033`.
 
 ## QA automat
 
@@ -66,9 +67,10 @@ La fiecare push pe `main` și la fiecare pull request sunt verificate automat:
 - `correctIndex`;
 - sursa și explicația;
 - existența tuturor modulelor declarate active în `index.html`;
-- faptul că itemii din carantină nu ajung în banca activă.
+- faptul că itemii din carantină nu ajung în banca activă;
+- contractul DOM minimal dintre `index.html` și `js/app.js`.
 
-Prima rulare a validatorului după activarea loturilor 2020/2021 a trecut cu succes: 13 module verificate, 660 itemi structurali valizi în staging după carantină și 137 itemi activi după carantină.
+Rularea de după activarea lotului 2013 a trecut cu succes: **13 module verificate, 659 itemi structurali valizi în staging după carantină, 5 module active și 194 itemi activi după carantină**.
 
 ## Carantină tehnică
 
