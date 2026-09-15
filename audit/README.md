@@ -75,7 +75,7 @@ La fiecare push pe `main` și la fiecare pull request sunt verificate automat:
 - faptul că itemii din carantină nu ajung în banca activă;
 - contractul DOM minimal dintre `index.html` și `js/app.js`.
 
-Rularea de după activarea lotului de Limba română 2021 a trecut cu succes: **13 module verificate, 655 itemi structurali valizi în staging după carantină, 6 module active și 233 itemi activi după carantină**. Contractul DOM a trecut de asemenea verificarea automată.
+Rularea de după carantinarea `2019-ist-011` a trecut cu succes: **13 module verificate, 654 itemi structurali valizi în staging după carantină, 6 module active și 233 itemi activi după carantină**. Contractul DOM a trecut de asemenea verificarea automată.
 
 ## Carantină tehnică
 
