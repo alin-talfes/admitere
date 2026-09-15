@@ -20,12 +20,24 @@
     '2022-ro-031',
     '2022-ro-033',
 
-    // 2021: incompatibilitati cu norma curenta (DOOM3).
+    // 2021: incompatibilitati sau ambiguitati fata de bibliografia curenta.
     // Q10 are acum cel putin doua variante admisibile: DOOM3 accepta acordul la plural
     // in constructii de tipul „Majoritatea studentilor vor...”.
     '2021-ro-010',
     // Q16 foloseste o despartire/grafie istorica ce nu corespunde normei DOOM3 pentru sandvici/sendvis.
     '2021-ro-016',
+    // Q19 foloseste terminologia traditionala „moduri nepersonale”; gramatica actuala
+    // din bibliografia 2026 le trateaza drept forme verbale nepersonale/nonfinite, nu moduri.
+    '2021-ro-019',
+    // Q29 trateaza „ce” dintr-o interogativa indirecta drept simplu pronume relativ;
+    // gramatica actuala il clasifica drept pronume relativ-interogativ.
+    '2021-ro-029',
+    // Q36 numara numai propozitiile finite, desi gramatica actuala admite, in anumite
+    // configuratii, analiza grupului verbal cu infinitiv drept propozitie nonfinita.
+    '2021-ro-036',
+    // Q39 cere un „pronume relativ”, dar „cine” introduce aici o interogativa indirecta;
+    // bibliografia actuala foloseste categoria pronume relativ-interogativ.
+    '2021-ro-039',
 
     // 2020: itemi de romana care nu pot fi folositi sigur in forma curenta.
     // Q32 depinde de cuvantul subliniat in original, marcaj pierdut la transcriere.
