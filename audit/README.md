@@ -36,7 +36,7 @@ Baremul istoric dovedește ce a fost punctat la examenul din anul respectiv. Nu 
 | 2018 | staging; Q8 neimportat; Q14/Q35/Q40/Q45/Q51/Q53/Q57/Q63/Q67 carantinate | cheie verificată integral; fidelitate integrală încă neînchisă | nu |
 | 2017 | staging; Q3/Q4/Q6 neimportate; Q23/Q41/Q45/Q52/Q69 carantinate | erata Q9 aplicată; audit integral în curs | nu |
 | 2016 | neimportat la Română; erata oficială verificată: modifică doar calculul punctajului, nu cheia | lot staging; sursă oficială identificată; audit de fidelitate neînchis | nu |
-| 2015 | neimportat la Română; grilele oficiale și contestațiile sunt listate în arhivă | lot staging conservator; audit de fidelitate neînchis | nu |
+| 2015 | neimportat la Română; grilele oficiale și contestațiile sunt listate în arhivă | 21 itemi staging conservator; Q41 carantinat semantic | nu |
 | 2014 | neimportat; există și o soluționare ulterioară individuală publicată în 2017 | erată oficială identificată, conținutul exact încă nerecuperat | nu |
 | 2013 | PDF oficial identificat; neimportat | **60/60 recuperați; 57 activi, Q11/Q24/Q35 carantinați** | **da, doar Istorie** |
 | 2012 | URL oficial recuperat; Româna neimportată | 24 itemi staging conservator; Q46 carantinat semantic | nu |
@@ -55,11 +55,12 @@ Loaderul din `index.html` încarcă, în această ordine:
 - `2022-ro.js`;
 - `2022-history.js`.
 
-Rularea QA pentru commitul de audit semantic a confirmat:
+Rularea QA finală pentru auditul semantic a confirmat:
 
 - **17 module totale verificate**;
 - **6 module active**;
-- **745 itemi structurali valizi în staging după carantină**;
+- **744 itemi structurali valizi în staging după carantină**;
+- **53 ID-uri declarate în carantină, toate existente efectiv în module**;
 - **232 itemi activi după carantină**;
 - **14 itemi carantinați întâlniți în modulele active**.
 
@@ -83,10 +84,11 @@ La fiecare push pe `main` și la fiecare pull request sunt verificate automat:
 - sursa și explicația;
 - existența tuturor modulelor declarate active în `index.html`;
 - faptul că itemii din carantină nu ajung în banca activă;
+- integritatea registrului de carantină: fiecare ID declarat trebuie să existe efectiv într-un modul staging;
 - contractul DOM dintre `index.html` și `js/app.js`;
 - contractul CSS/tema pentru clasele critice ale interfeței.
 
-Rularea din 15.09.2026 pentru commitul `b04d3a766852facb1b5a459bb438bf5e6ed02472` a trecut cu succes. Au trecut și contractele DOM (59 ID-uri, 52 selectori, 13 listenere directe, 13 clase dinamice) și CSS (42 clase critice, 95 clase CSS detectate).
+Rularea din 15.09.2026 pentru commitul `9b4e8b42995356f56f8a23ce82355eff1b2d001f` a trecut cu succes. Contractul de carantină a confirmat **53/53 ID-uri existente**, iar contractele DOM (59 ID-uri, 52 selectori, 13 listenere directe, 13 clase dinamice) și CSS (42 clase critice, 95 clase CSS detectate) au trecut de asemenea.
 
 ## Carantină tehnică
 
