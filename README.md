@@ -19,10 +19,11 @@ După aplicarea carantinei, validatorul automat raportează **233 de itemi activ
 
 În staging există acum și:
 
+- `js/questions/2012-history.js` — **24 de itemi de Istorie 2012 selectați conservator**;
 - `js/questions/2015-history.js` — **21 de itemi de Istorie 2015 selectați conservator**;
 - `js/questions/2016-history.js` — **25 de itemi de Istorie 2016 selectați conservator**.
 
-Pentru aceste loturi au fost păstrate numai întrebările cu enunț și variante complete și cu răspuns istoric verificabil independent, fără ambiguitate. Loturile 2015 și 2016 nu sunt încă încărcate de `index.html`; activarea rămâne blocată până la confruntarea directă cu grilele oficiale finale și verificarea eventualelor erate/efecte ale contestațiilor. Celelalte fișiere din `js/questions/` rămân de asemenea staging până la închiderea auditului individual. Pentru anii în care documentele oficiale relevante nu pot fi inspectate suficient pentru verificarea cheii și a eventualelor erate, nu se activează întrebări.
+Pentru aceste loturi au fost păstrate numai întrebările cu enunț și variante complete și cu răspuns istoric verificabil independent, fără ambiguitate. Loturile 2012, 2015 și 2016 nu sunt încă încărcate de `index.html`; activarea rămâne blocată până la confruntarea directă cu grilele oficiale finale și verificarea eventualelor erate/efecte ale contestațiilor. Celelalte fișiere din `js/questions/` rămân de asemenea staging până la închiderea auditului individual. Pentru anii în care documentele oficiale relevante nu pot fi inspectate suficient pentru verificarea cheii și a eventualelor erate, nu se activează întrebări.
 
 Auditul pe ani, eratele identificate, itemii anulați și motivele de carantinare sunt documentate în [`audit/README.md`](audit/README.md) și în fișierele `audit/YYYY.md`.
 
@@ -86,7 +87,7 @@ node tools/validate-question-bank.mjs
 
 Validatorul încarcă atât toate modulele de staging, cât și modulele active declarate în `index.html`. Verifică sintaxa, ID-urile, disciplinele, temele, cele patru variante, `correctIndex`, sursa, explicația, modulele active, aplicarea carantinei și contractele DOM/CSS ale interfeței.
 
-Workflow-ul `.github/workflows/question-bank-qa.yml` execută aceeași verificare automat la fiecare push pe `main` și la pull request. După introducerea loturilor sigure de Istorie 2015 și 2016, validatorul raportează **15 module verificate, 700 itemi structurali valizi în staging după carantină, 6 module active și 233 itemi activi**. Contractele DOM și CSS trec verificarea.
+Workflow-ul `.github/workflows/question-bank-qa.yml` execută aceeași verificare automat la fiecare push pe `main` și la pull request. După introducerea loturilor sigure de Istorie 2012, 2015 și 2016, validatorul raportează **16 module verificate, 724 itemi structurali valizi în staging după carantină, 6 module active și 233 itemi activi**. Contractele DOM și CSS trec verificarea.
 
 ## GitHub Pages
 
